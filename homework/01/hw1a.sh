@@ -2,10 +2,8 @@
 
 # Echo a newline-separated list of current IP addresses this computer holds on all interfaces.
 function get_ips {
-    #           ifaces,    only lines with inet, remove 'netmask.*',   remove 'inet',    strip spaces.
-    local ips=$(ifconfig | egrep -i "(inet\ )" | sed "s/netmask.*//g"| sed "s/inet//g" | sed "s/ //g")
-
-    echo "$ips"
+    #       ifaces,    only lines with inet, remove 'netmask.*',   remove 'inet',    strip spaces.
+    echo "$(ifconfig | egrep -i "(inet\ )" | sed "s/netmask.*//g"| sed "s/inet//g" | sed "s/ //g")"
 }
 
 # Get the user's name.
