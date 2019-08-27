@@ -6,11 +6,10 @@ function get_ips {
     echo "$(ifconfig | egrep -i "(inet\ )" | sed "s/netmask.*//g"| sed "s/inet//g" | sed "s/ //g")"
 }
 
+# Get the operating system's release name.
 function get_os_release {
-
-#      Get os-release file, Only get field with "PRETTY_NAME" 2nd field, remove quotes.
-echo "$(cat /etc/os-release | awk -F= '$1=="PRETTY_NAME" {print $2; }' | tr -d "\"" )"
-
+    #      Get os-release file, Only get field with "PRETTY_NAME" 2nd field, remove quotes.
+    echo "$(cat /etc/os-release | grep "PRETTY_NAME" | awk -F= '$1=="PRETTY_NAME" {print $2; }' | tr -d "\"" )"
 }
 # Get the user's name.
 echo "First name:"
