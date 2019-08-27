@@ -11,6 +11,11 @@ function echo_os_release {
     #      Get os-release file, Only get field with "PRETTY_NAME" 2nd field, remove quotes.
     echo "$(cat /etc/os-release | grep "PRETTY_NAME" | awk -F= '$1=="PRETTY_NAME" {print $2; }' | tr -d "\"" )"
 }
+
+# Print a new line.
+function newline {
+    echo ""
+}
 # Get the user's name.
 echo "First name:"
 read first_name
@@ -24,10 +29,20 @@ echo "Welcome, ${first_name} ${last_name}!"
 # Run a command inside quotes using backticks.
 # whoami will print the user name associated with the current User ID.
 echo "You are currently logged in as '`whoami`'".
+newline
 
 # Get a list of this computer's registered IP addresses, and print them.
 echo "Here are your current IP addresses:"
 echo $(echo_ips)
+newline
 
+# Print the OS Release.
 echo "OS Release:"
 echo $(echo_os_release)
+newline
+
+# Print last logins by current user.
+echo "Last 10 logins by '`whoami`':"
+last $(whoami) | head -10
+newline
+
