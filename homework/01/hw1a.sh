@@ -33,16 +33,15 @@ newline
 
 # Get a list of this computer's registered IP addresses, and print them.
 echo "Here are your current IP addresses:"
-echo $(echo_ips)
+echo_ips
 newline
 
 # Print the OS Release.
 echo "OS Release:"
-echo $(echo_os_release)
+echo_os_release
 newline
 
 # Print last logins by current user.
 echo "Last 10 logins by '`whoami`':"
 last $(whoami) | head -10
 newline
-
