@@ -37,7 +37,7 @@ echo_ips
 newline
 
 # Print the OS Release.
-echo "OS Release:"
+echo "OS Release and version:"
 echo_os_release
 newline
 
@@ -45,3 +45,17 @@ newline
 echo "Last 10 logins by '`whoami`':"
 last $(whoami) | head -10
 newline
+
+# Grep for lines which contain MemTotal or MemFree.
+echo "Total and free memory:"
+cat /proc/meminfo | egrep 'MemTotal|MemFree'
+newline
+
+# List all non-root processes with username column.
+echo "Non-root processes:"
+ps -au
+
+# List all files/folders at `/` with long-listing (-l) and with human-readable
+# (G, k, M) size suffixes.
+echo "Linux filesystem overview:"
+ls -lh --color /
