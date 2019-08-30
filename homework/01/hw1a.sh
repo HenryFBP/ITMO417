@@ -64,3 +64,8 @@ newline
 
 USER_COUNT=$( cat /etc/passwd | wc -l)
 echo "You currently have $USER_COUNT users on this Linux system."
+newline
+
+echo "Linux has been running for:"
+uptime --pretty
+newline
