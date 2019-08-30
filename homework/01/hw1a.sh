@@ -54,8 +54,13 @@ newline
 # List all non-root processes with username column.
 echo "Non-root processes:"
 ps -au
+newline
 
 # List all files/folders at `/` with long-listing (-l) and with human-readable
 # (G, k, M) size suffixes.
 echo "Linux filesystem overview:"
 ls -lh --color /
+newline
+
+USER_COUNT=$( cat /etc/passwd | wc -l)
+echo "You currently have $USER_COUNT users on this Linux system."
