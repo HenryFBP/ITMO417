@@ -17,6 +17,21 @@ Options=(
 # Length of all commands they can enter
 OptionsLen=${#Options[@]}
 
+function ping_host() {
+
+  echo "Enter a host to ping:"
+
+  read host
+
+  ping -c 4 "${host}"
+
+  if ! [ $? -eq 0 ]; then
+    echo "Failed to ping '${host}'!"
+  fi
+
+}
+
+
 function echo_prompt() {
   printf " > "
 }
@@ -47,6 +62,22 @@ while [[ $INPUT != 0 ]]; do
     echo "Input a number."
   else
     echo "Executing '${Options[$INPUT]}'..."
+
+    case $INPUT in
+
+    0)
+      echo "Bye! :)"
+      ;;
+
+    1)
+      ping_host
+      ;;
+
+    2)
+
+      ;;
+
+    esac
 
     #TODO actually do stuff
   fi
