@@ -4,7 +4,22 @@
 # Henry Post, hpost@hawk.iit.edu
 #
 
-TEMP_DIR="/tmp/ITMO417/hw2/file_workdir/"
+TEMP_DIR="/tmp/ITMO417/hw2/"        # Place to store files temporarily for this shell script.
+TEMP_DIR_ZIP="$TEMP_DIR/zip/"       # Place to store zipped folders.
+TEMP_DIR_FOLDER="$TEMP_DIR/folder/" # Place to store folders.
+
+function clean_temp_dir() {
+
+  # Remove if exists,
+  if [ -d ${TEMP_DIR} ]; then
+    rm -r ${TEMP_DIR}
+  fi
+
+  # Make directories.
+  mkdir -p ${TEMP_DIR}
+  mkdir -p ${TEMP_DIR_ZIP}
+  mkdir -p ${TEMP_DIR_FOLDER}
+}
 
 # Associative array with commands
 Options=(
@@ -141,3 +156,5 @@ while [[ $INPUT != 0 ]]; do
   fi
 
 done
+
+clean_temp_dir
