@@ -42,7 +42,7 @@ function echo_options() {
     echo "$index: ${Options[$index]}"
   done
 
-  echo "Select an option (1-$(($OptionsLen - 1))) or 0 to exit."
+  echo "Select an option (1-$(($OptionsLen - 1))) or 0 to exit. Anything else (i.e. 'h') for help."
 
 }
 
