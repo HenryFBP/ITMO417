@@ -17,6 +17,10 @@ Options=(
 # Length of all commands they can enter
 OptionsLen=${#Options[@]}
 
+function echo_prompt() {
+  printf " > "
+}
+
 function echo_options() {
   # Print digit: option pairs
   for index in "${!Options[@]}"; do
@@ -27,12 +31,14 @@ function echo_options() {
 
 }
 
-INPUT="1"
+INPUT="not zero :)"
 
 while [[ $INPUT != 0 ]]; do
 
   echo_options
 
+  echo_prompt
+
   read INPUT
 
-  done
+done
