@@ -4,6 +4,8 @@
 # Henry Post, hpost@hawk.iit.edu
 #
 
+TEMP_DIR="/tmp/ITMO417/hw2/file_workdir/"
+
 # Associative array with commands
 Options=(
   "Exit"
@@ -16,6 +18,24 @@ Options=(
 
 # Length of all commands they can enter
 OptionsLen=${#Options[@]}
+
+function get_uname_from_uid() {
+
+  echo "Enter a UID to view the username of:"
+
+  echo_prompt
+  read user_id
+
+  result="$(getent passwd "${user_id}" | cut -d: -f1)"
+
+  if [ -z "$result" ]; then
+    echo "No user with the ID '${user_id}' exists."
+    return
+  fi
+
+  echo "The user ID '${user_id}' is associated with the username '${result}'."
+
+}
 
 function see_hops() {
 
@@ -33,6 +53,11 @@ function see_hops() {
 
   IFS= #This prevents newlines from being globbed
   raw_hops_output="$(traceroute "$host")"
+
+  if ! [ $? -eq 0 ]; then
+    echo "Could not query host '$host'."
+    return
+  fi
 
   echo $raw_hops_output
 
@@ -69,7 +94,7 @@ function echo_options() {
     echo "$index: ${Options[$index]}"
   done
 
-  echo "Select an option (1-$(($OptionsLen - 1))) or 0 to exit. Anything else (i.e. 'h') for help."
+  echo "Select an option (1-$(($OptionsLen - 1))) or 0 to exit. Anything else (i.e. 'h') to show this help again."
 
 }
 
@@ -104,6 +129,10 @@ while [[ $INPUT != 0 ]]; do
 
     2)
       see_hops
+      ;;
+
+    3)
+      get_uname_from_uid
       ;;
 
     esac
