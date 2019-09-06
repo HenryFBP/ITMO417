@@ -17,6 +17,33 @@ Options=(
 # Length of all commands they can enter
 OptionsLen=${#Options[@]}
 
+function see_hops() {
+
+  if hash traceroute 2>/dev/null; then
+    true
+  else
+    echo "You do not have 'traceroute' installed. Please install it using 'apt' or 'dnf'."
+    return
+  fi
+
+  echo "Enter a host to see the hops taken:"
+
+  echo_prompt
+  read host
+
+  IFS= #This prevents newlines from being globbed
+  raw_hops_output="$(traceroute "$host")"
+
+  echo $raw_hops_output
+
+  number_hops="$(echo "${raw_hops_output}" | wc -l)"
+
+  number_hops=$(($number_hops - 1))
+
+  echo "It took ${number_hops} hops to get to ${host}."
+
+}
+
 function ping_host() {
 
   echo "Enter a host to ping:"
@@ -76,7 +103,7 @@ while [[ $INPUT != 0 ]]; do
       ;;
 
     2)
-      true
+      see_hops
       ;;
 
     esac
