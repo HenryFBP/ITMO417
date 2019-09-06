@@ -21,6 +21,7 @@ function ping_host() {
 
   echo "Enter a host to ping:"
 
+  echo_prompt
   read host
 
   ping -c 4 "${host}"
@@ -30,7 +31,6 @@ function ping_host() {
   fi
 
 }
-
 
 function echo_prompt() {
   printf " > "
@@ -48,18 +48,20 @@ function echo_options() {
 
 INPUT="not zero :)"
 
-while [[ $INPUT != 0 ]]; do
+echo_options
 
-  echo_options
+while [[ $INPUT != 0 ]]; do
 
   echo_prompt
 
   read INPUT
 
   if ((INPUT > (OptionsLen - 1))); then
-    echo "That number is too high!"
+    echo "That number is too high!".
+    echo_options
   elif ! [[ "$INPUT" =~ ^[0-9]+$ ]]; then
     echo "Input a number."
+    echo_options
   else
     echo "Executing '${Options[$INPUT]}'..."
 
@@ -74,14 +76,12 @@ while [[ $INPUT != 0 ]]; do
       ;;
 
     2)
-
+      true
       ;;
 
     esac
 
     #TODO actually do stuff
   fi
-
-  echo ""
 
 done
