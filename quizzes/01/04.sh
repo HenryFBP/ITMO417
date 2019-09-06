@@ -26,7 +26,7 @@ Options=(
 OptionsLen=${#Options[@]}
 
 # Print digit: option pairs
-for index in ${!Options[@]}; do
+for index in "${!Options[@]}"; do
     echo "$index: ${Options[$index]}"
 done
 
