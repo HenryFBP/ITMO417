@@ -41,4 +41,16 @@ while [[ $INPUT != 0 ]]; do
 
   read INPUT
 
+  if ((INPUT > (OptionsLen - 1))); then
+    echo "That number is too high!"
+  elif ! [[ "$INPUT" =~ ^[0-9]+$ ]]; then
+    echo "Input a number."
+  else
+    echo "Executing '${Options[$INPUT]}'..."
+
+    #TODO actually do stuff
+  fi
+
+  echo ""
+
 done
