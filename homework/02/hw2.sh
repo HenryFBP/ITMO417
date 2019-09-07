@@ -4,6 +4,8 @@
 # Henry Post, hpost@hawk.iit.edu
 #
 
+ONE_GIGABYTE_IN_KB=1048576
+
 TEMP_DIR="/tmp/ITMO417/hw2/"        # Place to store files temporarily for this shell script.
 TEMP_DIR_ZIP="$TEMP_DIR/zip/"       # Place to store zipped folders.
 TEMP_DIR_FOLDER="$TEMP_DIR/folder/" # Place to store folders.
@@ -33,6 +35,54 @@ Options=(
 
 # Length of all commands they can enter
 OptionsLen=${#Options[@]}
+
+# Given a directory, echo its size in kilobytes.
+function echo_dir_size_in_kb() {
+  du -s "$1" 2>/dev/null | awk '{print $1}'
+}
+
+function send_dir_by_email() {
+  echo "Enter the path of a directory to zip and email:"
+
+  echo_prompt
+  read directory
+
+  # Make absolute so they're sure when we ask them questions later
+  directory=$(realpath "${directory}")
+
+  if ! [ -d "$directory" ]; then
+    echo "Directory '${directory}' does not exist!"
+    return
+  fi
+
+  dir_size_kb=$(echo_dir_size_in_kb "$directory")
+
+  dir_size_gb=$((dir_size_kb / ONE_GIGABYTE_IN_KB))
+
+  if ((dir_size_gb > 1)); then
+
+    echo "Are you sure you want to email this directory?"
+    echo "It is ${dir_size_gb}GB large."
+
+    read -p "Zip ${dir_size_gb}GB worth of data? [y,n] > " ynprompt
+
+    echo ''
+
+    case $ynprompt in
+
+    y | Y)
+      echo "Proceeding."
+      ;;
+
+    *)
+      echo "Aborting."
+      return
+
+    esac
+
+  fi
+
+}
 
 function get_uname_from_uid() {
 
@@ -123,11 +173,11 @@ while [[ $INPUT != 0 ]]; do
 
   read INPUT
 
-  if ((INPUT > (OptionsLen - 1))); then
-    echo "That number is too high!".
-    echo_options
-  elif ! [[ "$INPUT" =~ ^[0-9]+$ ]]; then
+  if ! [[ "$INPUT" =~ ^[0-9]+$ ]]; then
     echo "Input a number."
+    echo_options
+  elif ((INPUT > (OptionsLen - 1))); then
+    echo "That number is too high!".
     echo_options
   else
     echo "Executing '${Options[$INPUT]}'..."
@@ -148,6 +198,10 @@ while [[ $INPUT != 0 ]]; do
 
     3)
       get_uname_from_uid
+      ;;
+
+    4)
+      send_dir_by_email
       ;;
 
     esac
