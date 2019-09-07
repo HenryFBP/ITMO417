@@ -259,7 +259,6 @@ while [[ $INPUT != 0 ]]; do
 
     esac
 
-    #TODO actually do stuff
   fi
 
 done
