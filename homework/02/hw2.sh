@@ -141,6 +141,7 @@ function get_uname_from_uid() {
 
   result="$(getent passwd "${user_id}" | cut -d: -f1)"
 
+  # If string is empty,
   if [ -z "$result" ]; then
     echo "No user with the ID '${user_id}' exists."
     return
