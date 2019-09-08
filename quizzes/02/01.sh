@@ -4,8 +4,7 @@
 # Henry Post, hpost@hawk.iit.edu
 #
 
-
-MORNING_FLOOR=$((-1))        # 1AM is the start of 'morning'.
+MORNING_FLOOR=$((-1))       # 1AM is the start of 'morning'.
 MORNING_CEIL=$((12 + 0))    # Noon is the end of 'morning'.
 AFTERNOON_FLOOR=$((12 + 0)) # Noon is the start of 'afternoon'.
 AFTERNOON_CEIL=$((12 + 5))  # 5PM is the end of 'afternoon'.
