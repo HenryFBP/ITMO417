@@ -29,7 +29,7 @@ function echo_trim_slashes() {
 }
 
 # Less than one argument supplied.
-if [[ $# < 1 ]]; then
+if [[ $# -lt 1 ]]; then
   usage
   exit 1
 fi
@@ -44,7 +44,7 @@ if [[ ! -e $absolute_garbage_path ]]; then
 fi
 
 # A unique name for the file or folder being recycled.
-unique_name=$(echo_unique_name $(basename $1))
+unique_name=$(echo_unique_name "$(basename "$1")")
 recycled_filepath="${WASTEBASKET_DIR}${unique_name}"
 
 echo "About to perform the following move operation:"
