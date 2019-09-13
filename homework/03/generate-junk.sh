@@ -4,6 +4,8 @@ function fill_file_with_random_data() {
     head -c 20M </dev/urandom > $1
 }
 
+rm -r junk
+
 mkdir -p junk
 pushd junk
 
