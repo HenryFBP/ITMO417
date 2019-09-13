@@ -53,6 +53,12 @@ function handle_recycling_file() {
   # Filepath for the recycled file.
   recycled_filepath="${WASTEBASKET_DIR}${unique_name}"
 
+  # If the file/folder exists, regenerate the unique name until it doesn't.
+  while [ -d $recycled_filepath ] || [ -f $recycled_filepath ]; do
+    unique_name=$(echo_unique_name "${safe_filename}")
+    recycled_filepath="${WASTEBASKET_DIR}${unique_name}"
+  done
+
   echo "About to perform the following move operation:"
 
   # Make sure they know what they're doing...
