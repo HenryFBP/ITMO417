@@ -6,14 +6,19 @@ if ! [ -d "${WASTEBASKET_DIR}" ]; then
   mkdir -p "${WASTEBASKET_DIR}"
 fi
 
+function echo_date_nospace() {
+  DATE="$(date +%m-%d-%y-%l:%M%p-%s)"
+  echo "${DATE// }"
+}
+
 # Echo the UUID and date.
 function echo_uuid_and_date() {
-  echo "$(date +%m-%d-%y-%l:%M%p-%s)-$(uuidgen)"
+  echo "$(echo_date_nospace)-$(uuidgen)"
 }
 
 # Given a name, echo a probably-unique version of it.
 function echo_unique_name() {
-  echo "$1-""$(echo_uuid_and_date)"
+  echo "$1-$(echo_uuid_and_date)"
 }
 echo "Your deleted files will be stored in '$WASTEBASKET_DIR'."
 
@@ -54,7 +59,7 @@ function handle_recycling_file() {
   recycled_filepath="${WASTEBASKET_DIR}${unique_name}"
 
   # If the file/folder exists, regenerate the unique name until it doesn't.
-  while [ -d $recycled_filepath ] || [ -f $recycled_filepath ]; do
+  while [ -d "${recycled_filepath}" ] || [ -f "${recycled_filepath}" ]; do
     unique_name=$(echo_unique_name "${safe_filename}")
     recycled_filepath="${WASTEBASKET_DIR}${unique_name}"
   done
