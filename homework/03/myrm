@@ -8,7 +8,7 @@ fi
 
 function echo_date_nospace() {
   DATE="$(date +%m-%d-%y-%l:%M%p-%s)"
-  echo "${DATE// }"
+  echo "${DATE// /}"
 }
 
 # Echo the UUID and date.
@@ -45,9 +45,17 @@ function handle_recycling_file() {
   absolute_garbage_path=$(readlink -f "$1")
   absolute_garbage_path=$(echo_trim_slashes "${absolute_garbage_path}")
 
+  # Check if it exists.
   if [[ ! -e $absolute_garbage_path ]]; then
     echo "File at ${absolute_garbage_path} does not exist!"
-    exit 1
+    return 1
+  fi
+
+  # Check if the current user has WRITE access on this file.
+  if ! [ -w "${absolute_garbage_path}" ]; then
+    echo "You do not have write access on '${absolute_garbage_path}'!"
+    ls -lash "${absolute_garbage_path}"
+    return 1
   fi
 
   safe_filename=$(basename "$1")
