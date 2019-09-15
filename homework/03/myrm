@@ -1,5 +1,11 @@
 #!/usr/bin/env bash
 
+###
+# Henry Post, hpost@hawk.iit.edu
+#
+# This program allows you to remove files and put them into a temporary directory instead of deleting them forever.
+#
+
 WASTEBASKET_DIR=$HOME/WasteBasket/
 
 if ! [ -d "${WASTEBASKET_DIR}" ]; then
