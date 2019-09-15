@@ -1,0 +1,101 @@
+﻿┌[henryfbp@pop-os]-(/m/h/m/G/s/I/h/03)-[git://master ✔]-
+└> git pull                                                                            (base) 
+Already up to date.
+Current branch master is up to date.
+┌[henryfbp@pop-os]-(/m/h/m/G/s/I/h/03)-[git://master ✔]-
+└> git log -1                                                                          (base) 
+commit be9f8f780dd1b032ff855544abc1a8a53796e3be (HEAD -> master, origin/master, origin/HEAD)
+Author: Henry Post <HenryFBP@gmail.com>
+Date:   Sat Sep 14 20:27:23 2019 -0500
+
+    make demo url of my work
+┌[henryfbp@pop-os]-(/m/h/m/G/s/I/h/03)-[git://master ✔]-
+└> ./myrm                                                                              (base) 
+Your deleted files will be stored in '/home/henryfbp/WasteBasket/'.
+Usage:
+./myrm <FILE-TO-REMOVE>
+┌[henryfbp@pop-os]-(/m/h/m/G/s/I/h/03)-[git://master ✔]-
+└> rm ~/WasteBasket/ -r                                                                (base) 
+┌[henryfbp@pop-os]-(/m/h/m/G/s/I/h/03)-[git://master ✔]-
+└> rm ~/WasteBasket/ -r                                                                (base) 
+rm: cannot remove '/home/henryfbp/WasteBasket/': No such file or directory
+┌[henryfbp@pop-os]-(/m/h/m/G/s/I/h/03)-[git://master ✔]-
+└> ls                                                                                  (base) 
+ demo.cast   demo.url   generate-junk.sh   myrm  'MyRm Script.pdf'   setup-myrm-command.sh
+┌[henryfbp@pop-os]-(/m/h/m/G/s/I/h/03)-[git://master ✔]-
+└> ./generate-junk.sh                                                                  (base) 
+rm: cannot remove 'junk': No such file or directory
+/media/henryfbp/media/GitHub/school/ITMO417/homework/03/junk /media/henryfbp/media/GitHub/school/ITMO417/homework/03
+/media/henryfbp/media/GitHub/school/ITMO417/homework/03/junk/img /media/henryfbp/media/GitHub/school/ITMO417/homework/03/junk /media/henryfbp/media/GitHub/school/ITMO417/homework/03
+/media/henryfbp/media/GitHub/school/ITMO417/homework/03/junk /media/henryfbp/media/GitHub/school/ITMO417/homework/03
+/media/henryfbp/media/GitHub/school/ITMO417/homework/03/junk/data /media/henryfbp/media/GitHub/school/ITMO417/homework/03/junk /media/henryfbp/media/GitHub/school/ITMO417/homework/03
+/media/henryfbp/media/GitHub/school/ITMO417/homework/03/junk /media/henryfbp/media/GitHub/school/ITMO417/homework/03
+/media/henryfbp/media/GitHub/school/ITMO417/homework/03
+┌[henryfbp@pop-os]-(/m/h/m/G/s/I/h/03)-[git://master ✔]-
+└> tree junk/                                                                          (base) 
+junk/
+├── data
+│   ├── hard_drive.img
+│   └── names.txt
+└── img
+    ├── cat.gif
+    └── cool_image.jpg
+
+2 directories, 4 files
+┌[henryfbp@pop-os]-(/m/h/m/G/s/I/h/03)-[git://master ✔]-
+└> ./myrm junk/data/hard_drive.img                                                     (base) 
+Your deleted files will be stored in '/home/henryfbp/WasteBasket/'.
+About to perform the following move operation:
+[  SRC  ] --> /media/henryfbp/media/GitHub/school/ITMO417/homework/03/junk/data/hard_drive.img
+[  DEST ] --> /home/henryfbp/WasteBasket/hard_drive.img-09-15-19-12:46PM-1568569590-2782ba00-3be9-4973-891a-5c63653f4a74
+[  SIZE ]  :  20M
+Is this move operation okay? (y/n)
+ > y
+Proceeding.
+Moved to '/home/henryfbp/WasteBasket/hard_drive.img-09-15-19-12:46PM-1568569590-2782ba00-3be9-4973-891a-5c63653f4a74'.
+┌[henryfbp@pop-os]-(/m/h/m/G/s/I/h/03)-[git://master ✔]-
+└> ls ~/WasteBasket/                                                                   (base) 
+hard_drive.img-09-15-19-12:46PM-1568569590-2782ba00-3be9-4973-891a-5c63653f4a74
+┌[henryfbp@pop-os]-(/m/h/m/G/s/I/h/03)-[git://master ✔]-
+└> ls ~/WasteBasket/ -lash                                                             (base) 
+total 21M
+4.0K drwxr-xr-x  2 henryfbp henryfbp 4.0K Sep 15 12:46 .
+4.0K drwxr-xr-x 87 henryfbp henryfbp 4.0K Sep 15 12:46 ..
+ 20M -rwxrwxrwx  1 henryfbp henryfbp  20M Sep 15 12:46 hard_drive.img-09-15-19-12:46PM-1568569590-2782ba00-3be9-4973-891a-5c63653f4a74
+┌[henryfbp@pop-os]-(/m/h/m/G/s/I/h/03)-[git://master ✔]-
+└> ./myrm junk/data/namesthatdoesntexist.txt                                           (base) 
+Your deleted files will be stored in '/home/henryfbp/WasteBasket/'.
+File at /media/henryfbp/media/GitHub/school/ITMO417/homework/03/junk/data/namesthatdoesntexist.txt does not exist!
+┌[henryfbp@pop-os]-(/m/h/m/G/s/I/h/03)-[git://master ✔]-
+└> pushd /tmp                                                                          (base) 
+┌[henryfbp@pop-os]-(/tmp)
+└> touch junkfile.txt                                                                  (base) 
+┌[henryfbp@pop-os]-(/tmp)
+└> popd                                                                                (base) 
+┌[henryfbp@pop-os]-(/m/h/m/G/s/I/h/03)-[git://master ✔]-
+└> ./myrm /tmp/junkfile.txt                                                            (base) 
+Your deleted files will be stored in '/home/henryfbp/WasteBasket/'.
+About to perform the following move operation:
+[  SRC  ] --> /tmp/junkfile.txt
+[  DEST ] --> /home/henryfbp/WasteBasket/junkfile.txt-09-15-19-12:47PM-1568569637-eba2c30c-4fb9-465d-9c48-9c53b91dd3cc
+[  SIZE ]  :  0
+Is this move operation okay? (y/n)
+ > y
+Proceeding.
+Moved to '/home/henryfbp/WasteBasket/junkfile.txt-09-15-19-12:47PM-1568569637-eba2c30c-4fb9-465d-9c48-9c53b91dd3cc'.
+┌[henryfbp@pop-os]-(/m/h/m/G/s/I/h/03)-[git://master ✔]-
+└> ./myrm /etc/motd                                                                    (base) 
+Your deleted files will be stored in '/home/henryfbp/WasteBasket/'.
+File at /etc/motd does not exist!
+┌[henryfbp@pop-os]-(/m/h/m/G/s/I/h/03)-[git://master ✔]-
+└> ./myrm /etc/lynx/lynx.cfg                                                           (base) 
+Your deleted files will be stored in '/home/henryfbp/WasteBasket/'.
+You do not have write access on '/etc/lynx/lynx.cfg'!
+160K -rw-r--r-- 1 root root 160K Jan 10  2019 /etc/lynx/lynx.cfg
+┌[henryfbp@pop-os]-(/m/h/m/G/s/I/h/03)-[git://master ✔]-
+└>                                                                                     (base) 
+
+
+
+
+
