@@ -17,10 +17,31 @@ JunkFileNames=(
 "core"
 )
 
+# Prints a newline.
+function newline(){
+echo ''
+}
+
+# Echoes a list of users that are currently logged in.
+function echo_logged_in_users(){
+    who
+}
+
+# Echoes a list of cpu-hungry processes.
+function echo_cpu_hungry_processes(){
+    top -b -n 1 -o %CPU | head -15
+}
+
+# Echoes a list of memory-hungry processes.
+function echo_memory_hungry_processes(){
+    top -b -n 1 -o %MEM | head -15
+}
+
+
 # Associative array with commands
 Options=(
 "Exit"
-"General server information"
+"General server information (logged in users, load, disk space, RAM)"
 "Find files with extension"
 "Remove junk files in a dir (ending in [${JunkFileExtensions[*]}] or named exactly [${JunkFileNames[*]}])"
 "Create a new directory with perms=777 and stickybit on"
@@ -55,12 +76,15 @@ while [[ $INPUT != 0 ]]; do
 
     read INPUT
 
+    # If it is not all digits,
     if ! [[ "$INPUT" =~ ^[0-9]$ ]]; then
         echo "Input a number."
         echo_options
+    # If it is too high,
     elif ((INPUT > ( OptionsLen - 1 ))); then
         echo "That number is too high!".
         echo_options
+    # It's a valid number within our bounds
     else
         echo "Executing '${Options[$INPUT]}'..."
 
@@ -71,7 +95,29 @@ while [[ $INPUT != 0 ]]; do
             ;;
 
             1)
-                ping_host
+                newline
+                echo "Logged in users:"
+                echo_logged_in_users
+
+                newline
+                echo "Processes using the CPU:"
+                echo_cpu_hungry_processes
+
+                newline
+                echo "Processes using memory:"
+                echo_memory_hungry_processes
+
+                newline
+                echo "Disk space information:"
+                df -h
+
+                newline
+                echo "Block device information:"
+                lsblk
+
+                newline
+                echo "System has been online for:"
+                uptime
             ;;
 
             2)
