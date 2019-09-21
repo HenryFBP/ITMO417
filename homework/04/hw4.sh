@@ -22,9 +22,10 @@ Options=(
 "Exit"
 "General server information"
 "Find files with extension"
-"Remove junk files (ending in $(IFS=,; echo "${JunkFileExtensions[*]}"), or named ${JunkFileNames[*]})"
-"Zip a directory and send it via email"
-"Send a file via email"
+"Remove junk files in a dir (ending in [${JunkFileExtensions[*]}] or named exactly [${JunkFileNames[*]}])"
+"Create a new directory with perms=777 and stickybit on"
+"Run the homework 2 shell script"
+"Compress all files in your home directory"
 )
 
 # Length of all commands they can enter
@@ -54,7 +55,7 @@ while [[ $INPUT != 0 ]]; do
 
     read INPUT
 
-    if ! [[ "$INPUT" =~ "^[0-9]+$" ]]; then
+    if ! [[ "$INPUT" =~ ^[0-9]+ ]]; then
         echo "Input a number."
         echo_options
     elif ((INPUT > ( OptionsLen - 1 ))); then
