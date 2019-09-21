@@ -55,7 +55,7 @@ while [[ $INPUT != 0 ]]; do
 
     read INPUT
 
-    if ! [[ "$INPUT" =~ ^[0-9]+ ]]; then
+    if ! [[ "$INPUT" =~ ^[0-9]$ ]]; then
         echo "Input a number."
         echo_options
     elif ((INPUT > ( OptionsLen - 1 ))); then
