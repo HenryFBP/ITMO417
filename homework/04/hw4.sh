@@ -66,6 +66,35 @@ function echo_options() {
 
 }
 
+# Asks the user for a folder and shows them all of the files in that directory.
+function find_files_by_extension() {
+
+    echo "Enter path:"
+    local files_dir
+    read files_dir
+
+    local abs_files_dir=`realpath $files_dir`
+
+    # Make sure the directory exists.
+    if [[ ! -d $abs_files_dir ]]; then
+        echo "$abs_files_dir is not a directory that exists."
+        exit 1
+    fi
+
+    echo "Using '${abs_files_dir}'."
+    echo "Enter file extension (without '.'):"
+    local file_ext
+    read file_ext
+
+    echo "Files ending in '$file_ext' in '$abs_files_dir':"
+
+    # Show the files, or show an error message.
+    ls -lash $abs_files_dir/*.$file_ext 2>/dev/null ||
+        echo "No files ending in '$file_ext' exist in '$abs_files_dir'."
+
+}
+
+
 INPUT="not zero :)"
 
 echo_options
@@ -121,7 +150,7 @@ while [[ $INPUT != 0 ]]; do
             ;;
 
             2)
-                see_hops
+                find_files_by_extension
             ;;
 
             3)
