@@ -94,7 +94,7 @@ function find_files_by_extension() {
 
 }
 
-
+# Init user input to nonzero value for loop to work
 INPUT="not zero :)"
 
 echo_options
