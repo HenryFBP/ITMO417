@@ -21,6 +21,27 @@ function echo_prompt() {
     printf " > "
 }
 
+function new_777_folder_with_stickybit() {
+
+    echo "Enter a folder to create with permissions=777 and the stickybit set:"
+    echo_prompt
+
+    # Read their folder path
+    local FOLDER_PATH
+    read FOLDER_PATH
+
+    # Get the absolute path.
+    local ABS_FOLDER_PATH=`realpath ${FOLDER_PATH}`
+
+    # Make it and set bits.
+    mkdir -p ${ABS_FOLDER_PATH}
+    chmod 777 ${ABS_FOLDER_PATH}
+    chmod +t ${ABS_FOLDER_PATH}
+
+    # Show it to the user.
+    ls -lashd ${ABS_FOLDER_PATH}
+
+}
 
 # Remove all 'junk' files in a directory.
 function remove_junk_files() {
@@ -42,16 +63,16 @@ function remove_junk_files() {
 
     local JUNK_DIR
     read JUNK_DIR
-    ABS_JUNK_DIR=`realpath $JUNK_DIR`
+    ABS_JUNK_DIR=`realpath ${JUNK_DIR}`
 
     # Make sure the dir exists
-    if [[ ! -d $ABS_JUNK_DIR ]]; then
+    if [[ ! -d ${ABS_JUNK_DIR} ]]; then
         echo "Directory $JUNK_DIR does not exist!"
         exit 1
     fi
 
     # Move to the directory full of junk files
-    pushd $ABS_JUNK_DIR 1>/dev/null 2>&1
+    pushd ${ABS_JUNK_DIR} 1>/dev/null 2>&1
 
     # For all junk filenames,
     for filename in ${JunkFileNames[@]}; do
@@ -68,7 +89,8 @@ function remove_junk_files() {
 
         # If the file extension glob pattern exists,
         if find *.${fileext} 1>/dev/null 2>&1; then
-            # Verbosely remove it.
+
+            # Go through each match and verbosely remove it.
             for junkfilepath in $(find *.${fileext}); do
                 rm -v "$junkfilepath"
             done
@@ -134,10 +156,10 @@ function find_files_by_extension() {
     local files_dir
     read files_dir
 
-    local abs_files_dir=`realpath $files_dir`
+    local abs_files_dir=`realpath ${files_dir}`
 
     # Make sure the directory exists.
-    if [[ ! -d $abs_files_dir ]]; then
+    if [[ ! -d ${abs_files_dir} ]]; then
         echo "$abs_files_dir is not a directory that exists."
         exit 1
     fi
@@ -150,7 +172,7 @@ function find_files_by_extension() {
     echo "Files ending in '$file_ext' in '$abs_files_dir':"
 
     # Show the files, or show an error message.
-    ls -lash $abs_files_dir/*.$file_ext 2>/dev/null ||
+    ls -lash ${abs_files_dir}/*.${file_ext} 2>/dev/null ||
         echo "No files ending in '$file_ext' exist in '$abs_files_dir'."
 
 }
@@ -160,7 +182,7 @@ INPUT="not zero :)"
 
 echo_options
 
-while [[ $INPUT != 0 ]]; do
+while [[ ${INPUT} != 0 ]]; do
 
     echo_prompt
 
@@ -178,7 +200,7 @@ while [[ $INPUT != 0 ]]; do
     else
         echo "Executing '${Options[$INPUT]}'..."
 
-        case $INPUT in
+        case ${INPUT} in
 
             0)
                 echo "Bye! :)"
@@ -219,11 +241,13 @@ while [[ $INPUT != 0 ]]; do
             ;;
 
             4)
-                send_dir_by_email
+                new_777_folder_with_stickybit
             ;;
 
             5)
-                send_file_by_email
+                # Try my git repo's HW2 or fallback to the bundled one.
+                ./../02/hw2.sh 2>/dev/null || ./hw2.sh
+                echo "Returned from homework 2 shell script. This is homework 4's shell script."
             ;;
 
         esac
