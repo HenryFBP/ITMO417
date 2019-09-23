@@ -17,23 +17,88 @@ JunkFileNames=(
 "core"
 )
 
+function echo_prompt() {
+    printf " > "
+}
+
+
+# Remove all 'junk' files in a directory.
+function remove_junk_files() {
+
+    echo "Files matching these patterns will be removed:"
+
+    for filename in ${JunkFileNames[@]}; do
+        echo "${filename}"
+    done
+
+    for fileext in ${JunkFileExtensions[@]}; do
+        echo "*.${fileext}"
+    done
+
+    # XXX
+
+    echo "Enter a directory to clear of junk files:"
+    echo_prompt
+
+    local JUNK_DIR
+    read JUNK_DIR
+    ABS_JUNK_DIR=`realpath $JUNK_DIR`
+
+    # Make sure the dir exists
+    if [[ ! -d $ABS_JUNK_DIR ]]; then
+        echo "Directory $JUNK_DIR does not exist!"
+        exit 1
+    fi
+
+    # Move to the directory full of junk files
+    pushd $ABS_JUNK_DIR 1>/dev/null 2>&1
+
+    # For all junk filenames,
+    for filename in ${JunkFileNames[@]}; do
+
+        # If the file exists,
+        if ls "$filename" 1>/dev/null 2>&1; then
+            # Verbosely remove it.
+            rm -v "${filename}"
+        fi
+    done
+
+    # For all junk filenames,
+    for fileext in ${JunkFileExtensions[@]}; do
+
+        # If the file extension glob pattern exists,
+        if find *.${fileext} 1>/dev/null 2>&1; then
+            # Verbosely remove it.
+            for junkfilepath in $(find *.${fileext}); do
+                rm -v "$junkfilepath"
+            done
+        fi
+    done
+
+    # Restore dir.
+    popd 1>/dev/null 2>&1
+
+    echo "Done cleaning '$ABS_JUNK_DIR'!"
+
+}
+
 # Prints a newline.
-function newline(){
-echo ''
+function newline() {
+    echo ''
 }
 
 # Echoes a list of users that are currently logged in.
-function echo_logged_in_users(){
+function echo_logged_in_users() {
     who
 }
 
 # Echoes a list of cpu-hungry processes.
-function echo_cpu_hungry_processes(){
+function echo_cpu_hungry_processes() {
     top -b -n 1 -o %CPU | head -15
 }
 
 # Echoes a list of memory-hungry processes.
-function echo_memory_hungry_processes(){
+function echo_memory_hungry_processes() {
     top -b -n 1 -o %MEM | head -15
 }
 
@@ -51,10 +116,6 @@ Options=(
 
 # Length of all commands they can enter
 OptionsLen=${#Options[@]}
-
-function echo_prompt() {
-    printf " > "
-}
 
 function echo_options() {
     # Print digit: option pairs
@@ -154,7 +215,7 @@ while [[ $INPUT != 0 ]]; do
             ;;
 
             3)
-                get_uname_from_uid
+                remove_junk_files
             ;;
 
             4)
