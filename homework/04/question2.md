@@ -30,8 +30,6 @@ add_a_user bilko worsepassword Sgt. Bilko the role model
 echo "End of script..."
 ```
 
-\pagebreak
-
 ## What does this code do?
 
 This code defines a function called `tryMe` that takes a username as a 1st argument and a password as a 2nd argument.
