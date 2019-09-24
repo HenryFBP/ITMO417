@@ -17,6 +17,89 @@ JunkFileNames=(
 "core"
 )
 
+ONE_GIGABYTE_IN_KB=1048576
+
+# Given a directory, echo its size in kilobytes.
+function echo_dir_size_in_kb() {
+  du -s "$1" 2>/dev/null | awk '{print $1}'
+}
+
+# Convert KB to MB.
+function echo_kb_to_mb() {
+  echo $(($1 / 1000))
+}
+
+function echo_date_nospace() {
+  DATE="$(date +%m-%d-%y-%l:%M%p-%s)"
+  echo "${DATE// /}"
+}
+
+# Echo the UUID and date.
+function echo_uuid_and_date() {
+  echo "$(echo_date_nospace)-$(uuidgen)"
+}
+
+# Given a name, echo a probably-unique version of it.
+function echo_unique_name() {
+  echo "$1-$(echo_uuid_and_date)"
+}
+
+function zip_home_directory() {
+
+  # ~ expands to home dir
+  directory=$(realpath ~) # Change the directory to "junk" to test stuff.
+
+  # Sanity check -- does it exist?
+  if ! [[ -d "$directory" ]]; then
+    echo "Directory '${directory}' does not exist!"
+    return
+  fi
+
+  dir_size_kb=$(echo_dir_size_in_kb "$directory")
+
+  dir_size_gb=$((dir_size_kb / ONE_GIGABYTE_IN_KB))
+
+  echo "Directory at '${directory}' is:"
+  echo "${dir_size_kb}KB,"
+  echo "$(echo_kb_to_mb ${dir_size_kb})MB,"
+  echo "${dir_size_gb}GB."
+  sleep 3
+
+  if ((dir_size_gb > 1)); then
+
+    echo "Are you sure you want to zip your home directory?"
+    echo "It is ${dir_size_gb}GB large."
+
+    read -p "Zip ${dir_size_gb}GB worth of data? [y,n] > " ynprompt
+
+    echo ''
+
+    case ${ynprompt} in
+
+    y | Y)
+      echo "Proceeding."
+      ;;
+
+    *)
+      echo "Aborting."
+      return
+      ;;
+
+    esac
+
+  fi
+
+  ZIP_LOCATION="/tmp/$(echo_uuid_and_date).tar.gz"
+
+  echo "Zipping '${directory}'..."
+  tar -zcvf "$ZIP_LOCATION" ${directory}
+  echo "Done!"
+  echo "Archive is at '${ZIP_LOCATION}'."
+
+  ls "${ZIP_LOCATION}" -lash
+
+}
+
 function echo_prompt() {
     printf " > "
 }
@@ -248,6 +331,10 @@ while [[ ${INPUT} != 0 ]]; do
                 # Try my git repo's HW2 or fallback to the bundled one.
                 ./../02/hw2.sh 2>/dev/null || ./hw2.sh
                 echo "Returned from homework 2 shell script. This is homework 4's shell script."
+            ;;
+
+            6)
+                zip_home_directory
             ;;
 
         esac
