@@ -1,3 +1,5 @@
 #!/usr/bin/env bash
 
-sudo apt install -y asciinema
+sudo apt-get update
+
+sudo apt-get install -y asciinema
