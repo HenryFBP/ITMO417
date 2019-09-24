@@ -329,7 +329,7 @@ while [[ ${INPUT} != 0 ]]; do
 
             5)
                 # Try my git repo's HW2 or fallback to the bundled one.
-                ./../02/hw2.sh 2>/dev/null || ./hw2.sh
+                ./../02/hw2.sh 2>/dev/null || hw2
                 echo "Returned from homework 2 shell script. This is homework 4's shell script."
             ;;
 
