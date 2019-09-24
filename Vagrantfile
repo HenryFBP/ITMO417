@@ -9,4 +9,7 @@ Vagrant.configure('2') do |config|
   config.ssh.username = 'vagrant'
   config.ssh.password = 'vagrant'
   config.ssh.insert_key = false
+
+  config.vm.provision 'shell', run: 'always', path: 'scripts/install_tools.sh'
+
 end
