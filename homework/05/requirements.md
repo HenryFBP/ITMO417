@@ -2,7 +2,7 @@
 
 ## HW5A - grep 
 
-This following assignment uses a file called datafile.txt. Please see the attached file. 
+This following assignment uses a file called grepDatafile.txt. Please see the attached file. 
 
 Once you have the file, write a series of grep statements that do the following: 
 
@@ -29,7 +29,7 @@ Your patterns should work in any generic file of this sort. They should not be d
 
 ## HW5B - sed
 
-This following assignment uses a file called datebook.txt. Please see the attached file. 
+This following assignment uses a file called sedDatafile.txt. Please see the attached file. 
 Using the datebook file mentioned above, do the following tasks;
 
 Write a sed script that will
@@ -41,3 +41,5 @@ Write a sed script that will
 3. Print the contents of the file with the last name and first names reversed 
 
 4. Append at the end of the file THE END  
+
+Due on 10/1/19 @11:59pm
