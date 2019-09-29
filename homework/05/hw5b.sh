@@ -11,10 +11,13 @@ function newline() {
 
 FILENAME=sedDatafile.txt
 OUT_DIR="out/"
-mkdir -p $OUT_DIR
+if [[ -d ${OUT_DIR} ]]; then
+    rm -r ${OUT_DIR}
+fi
+mkdir -p ${OUT_DIR}
 
 echo "See the following folder for files modified by sed:"
-echo `realpath $OUT_DIR`
+realpath ${OUT_DIR}
 
 # 1. Insert above the first line the title PERSONNEL FILE
 sed "1s/^/PERSONNEL FILE\n/" ${FILENAME} > ${OUT_DIR}/1.txt
@@ -23,7 +26,7 @@ sed "1s/^/PERSONNEL FILE\n/" ${FILENAME} > ${OUT_DIR}/1.txt
 sed "/500/d" ${FILENAME} > ${OUT_DIR}/2.txt
 
 # 3. Print the contents of the file with the last name and first names reversed
-sed "/500/d" ${FILENAME} > ${OUT_DIR}/2.txt
+sed -E "s/^([a-zA-Z]+) ([a-zA-Z]+):(.*)$/\2 \1:\3/"  ${FILENAME} > ${OUT_DIR}/3.txt
 
 # 4. Append at the end of the file THE END
-
+sed -e "\$aTHE END" ${FILENAME} > ${OUT_DIR}/4.txt
