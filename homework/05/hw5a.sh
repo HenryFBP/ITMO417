@@ -24,4 +24,25 @@ grep -P "[a-zA-Z]{3}\. \d{1,2}, \d{4}" "$FILENAME"
 newline
 
 echo "HW5A 4: Vowels followed by a character with capturing groups"
-grep -P "potato :)" "$FILENAME"
+grep -P "([aeiouAEIOU]).\1" "$FILENAME"
+newline
+
+echo "HW5A 5: Lines not beginning with 'S'"
+grep -P "^[^S]" "$FILENAME"
+newline
+
+echo "HW5A 6: Lines with 'CA', case-insensitive."
+grep -P "[cC][aA]" "$FILENAME"
+newline
+
+echo "HW5A 7: Lines with an email address, plus line numbers."
+grep -n -P "@" "$FILENAME"
+newline
+
+echo "HW5A 8: All lines without the sequence 'Sep.'."
+grep -v -P "Sep\." "$FILENAME"
+newline
+
+echo "HW5A 8: All lines with the word 'de' as a whole word."
+grep -P " de " "$FILENAME"
+newline
