@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 
-echo "By Henry Post, hpost@hawk.iit.edu."
+echo "By Henry Post, hpost@hawk.iit.edu.
+ITMO 417 at IIT
+"
 
 # Prints a newline.
 function newline() {
