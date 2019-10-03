@@ -1,5 +1,6 @@
 .vagrant/
 .idea/
+text2pdf*/
 *.out.pdf
 .fuse_hidden*
 junk/
