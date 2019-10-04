@@ -6,16 +6,15 @@
 # and send an e-mail when free memory drops below 1000 MB.
 #
 
-function echo_free_mem_kb(){
-    cat /proc/meminfo | grep MemFree | awk '{print $2}'
-}
-
 echo "By Henry Post, hpost@hawk.iit.edu.
 ITMO 417 at IIT
 "
 
+# Email of the system administrator.
+SYSADMIN_EMAIL="hpost@hawk.iit.edu"
+
 # Interval to check in seconds.
-CHECK_INTERVAL=1
+CHECK_INTERVAL=10
 
 # Interval to wait after sending email. 1200 seconds = 20 minutes.
 AFTER_TRIP_SLEEP=1200
@@ -23,3 +22,54 @@ AFTER_TRIP_SLEEP=1200
 # Minimum memory in MB.
 MINIMUM_MEMORY=1000
 
+function echo_free_mem_kb(){
+    cat /proc/meminfo | grep MemAvailable | awk '{print $2}'
+}
+
+function echo_free_mem_mb() {
+    echo $(( $(echo_free_mem_kb) / 1000 ))
+}
+
+# Create a low-memory-email file.
+# The first argument is how many MB of memory is left.
+# Echoes the location of the file.
+function create_lowmem_email_file() {
+    mb=$1
+    tempfile_path="/tmp/low_memory_email.txt"
+    rm -f ${tempfile_path} 2>/dev/null
+    echo "Subject: ${mb}MB of RAM left" >> ${tempfile_path}
+    echo "There is only ${mb}MB of RAM left on this machine." >> ${tempfile_path}
+    echo "Automatically generated email." >> ${tempfile_path}
+    echo "Sent by `hostname`@`whoami`." >> ${tempfile_path}
+    echo "OS info:" >> ${tempfile_path}
+    cat /etc/os-release >> ${tempfile_path}
+
+    echo ${tempfile_path}
+}
+
+while true; do
+
+    freemem=$(echo_free_mem_mb)
+
+    # Out of memory!
+    if (( freemem < MINIMUM_MEMORY )); then
+        echo "${freemem}MB < ${MINIMUM_MEMORY}MB! Sending email to '${SYSADMIN_EMAIL}'."
+
+        # Create an email.
+        email_file=$(create_lowmem_email_file "$freemem" )
+
+        # Send an email.
+        sendmail ${SYSADMIN_EMAIL} < ${email_file}
+
+        echo "Waiting $AFTER_TRIP_SLEEP seconds to check again."
+        # Wait a longer time after sending an email.
+        sleep ${AFTER_TRIP_SLEEP}
+    else
+        echo "${freemem}MB >= ${MINIMUM_MEMORY}MB. Waiting ${CHECK_INTERVAL} seconds..."
+
+        # Wait a bit after checking.
+        sleep ${CHECK_INTERVAL}
+    fi
+
+
+done
