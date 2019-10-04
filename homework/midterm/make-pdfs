@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
-# Generate q2 pdf file :)
+pandoc -o hpost-midterm.out.pdf hpost-midterm.md --pdf-engine=xelatex
 
-pandoc -o hpost-midterm.out.pdf hpost-midterm.md #--pdf-engine=xelatex
+enscript -2Gr -Ebash -o hpost-midterm-q3.out.pdf 03
+
+enscript -2Gr -Ebash -o hpost-midterm-q4.out.pdf 04

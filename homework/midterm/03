@@ -22,10 +22,12 @@ AFTER_TRIP_SLEEP=1200
 # Minimum memory in MB.
 MINIMUM_MEMORY=1000
 
+# Echo the free memory in kilobytes.
 function echo_free_mem_kb(){
     cat /proc/meminfo | grep MemAvailable | awk '{print $2}'
 }
 
+# Echo the free memory in megabytes.
 function echo_free_mem_mb() {
     echo $(( $(echo_free_mem_kb) / 1000 ))
 }
