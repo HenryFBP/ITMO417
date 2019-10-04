@@ -1,6 +1,44 @@
 #!/usr/bin/env bash
 
+# The Linux command useradd allows a system administrator to create login accounts. The
+# following is an example of how to use the command (must be in superuser mode);
+# useradd smithj –m -c "John Smith, Scripting Course" –u 1001 –g 1001 –s /bin/bash
+# The command above adds a login id called smithj to the Linux system, make the home directory
+# for smithj, the owner is John Smith with comment included as Scripting Course, with User ID
+# number (UID) 1001, Group ID (GID) number 1001, and setup the bash shell for user smithj.
+# Your Assignment
+# Customize and write a script to add new login id in an interactive mode. Your script should ask
+# the user what Linux id to install, the user full name, what UID and GID to use (if nothing is
+# entered for UID and GID, your Linux will use the default values), and what Linux shell to use
+# (default should be setup as bash). Once you have all the values, your script will then implement
+# the Linux useradd command to complete the task. Call your script addloginid.
+# This assignment requires super-user access to run your script. This assignment must be written
+# using your Linux server that you have installed earlier as one of your assignments. If you did not
+# install it, then you will not be able to do this assignment.
+# Your script MUST check all possible errors. The script will terminate if an error is
+# encountered. Your script should check for the following possible errors:
+# a) Only superuser can run the script.
+# b) Duplicate Linux id should NOT be allowed.
+# c) Linux id should have a minimum of three characters.
+# The shell selected should only be either c, ksh, sh, or bash.
+# d) User full name should not be blank.
+# e) Make sure your script sets up a default password (any password).
+# f) Make sure the id has a default .bash_profile file.
+# g) Any other possible errors you can think of? Make your script robust!
+# Submit your script with several test results. Include successful output and failure output.
+# Demonstrate that you have done a thorough test on your script.
+
+
 echo "By Henry Post, hpost@hawk.iit.edu.
 ITMO 417 at IIT
 "
 
+# Make sure the script is being run as root.
+function ensure_superuser() {
+    if [[ $EUID -ne 0 ]]; then
+       echo "This script must be run as root. Your UID is ${EUID}."
+       exit 1
+    fi
+}
+
+ensure_superuser
