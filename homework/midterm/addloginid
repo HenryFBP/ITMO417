@@ -134,6 +134,9 @@ function main() {
     # Get the group id.
     GROUP_ID_OK=false
     while ! [[ ${GROUP_ID_OK} = true ]]; do
+
+        # Assume it's ok.
+        GROUP_ID_OK=true
         echo "Enter group id (or enter to automatically set):"
         read group_id
 
@@ -157,6 +160,8 @@ function main() {
     # Get the user id.
     USER_ID_OK=false
     while ! [[ ${USER_ID_OK} = true ]]; do
+        # Assume it's ok.
+        USER_ID_OK=true
         echo "Enter user id (or enter to automatically set):"
         read user_id
 
@@ -175,6 +180,48 @@ function main() {
         fi
     done
 
+    # Base useradd command.
+    useradd_command="useradd '${username}' -m -c '${comment}' -s '`which ${shell}`'"
+
+    # If user id is unset, don't add it to the command.
+    if [[ -z ${user_id} ]]; then
+        true
+    else # Else, use our user-provided user id.
+        useradd_command="${useradd_command} -u ${user_id}"
+    fi
+
+    # If group id is unset, don't add it to the command.
+    if [[ -z ${group_id} ]]; then
+        true
+    else # Else, use our user-provided group id.
+        useradd_command="${useradd_command} -g ${group_id}"
+    fi
+
+    echo "About to execute this command:"
+    echo "${useradd_command}"
+
+    read -r -p "Is this okay? (yes/n)
+ > " input
+    case ${input} in
+
+        [yY][eE][sS])
+            echo "Continuing."
+            ;;
+
+        *)
+            echo "Halting! Type 'yes'."
+            exit 1
+            ;;
+    esac
+
+    # Add the user.
+    eval ${useradd_command}
+
+    # Copy skel files.
+    cp -rT /etc/skel /home/${username}
+    ls -lash /home/${username}
+
+    echo "username=${username};GID=${group_id};UID=${user_id} is set up!"
 
 }
 
