@@ -221,6 +221,12 @@ function main() {
     cp -rT /etc/skel /home/${username}
     ls -lash /home/${username}
 
+    # Expire password.
+    passwd -e ${username}
+
+    # Change password.
+    passwd ${username}
+
     echo "username=${username};GID=${group_id};UID=${user_id} is set up!"
 
 }
