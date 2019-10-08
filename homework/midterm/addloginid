@@ -94,11 +94,18 @@ function main() {
     echo "This script sets up a new user."
     echo "It will ask you for a username, comment, UID (user id; optional), GID (group id; optional), and preferred shell."
 
-    # Get username.
+    # Get username while it's empty or under 3 characters.
     while [[ -z ${username} || (( ${#username} -lt 3 )) ]]; do
         echo "Enter username (3+ characters):"
         echo_prompt
         read username
+
+        # If user exists,
+        if getent passwd "${username}" > /dev/null; then
+            echo "User ${username} exists!"
+            unset username
+        fi
+
     done
 
     # Get comment.
@@ -134,12 +141,40 @@ function main() {
             # It's empty. That's ok.
             echo "Automatically setting group id."
             GROUP_ID_OK=true
+
         elif ! expr -- "${group_id}" + 0 > /dev/null 2>&1; then
             # it is non-numeric.
             echo "Group ID must be numeric."
             GROUP_ID_OK=false
+
+        elif getent group ${group_id}; then
+            # group id exists.
+            echo "Group id ${group_id} exists!"
+            GROUP_ID_OK=false
         fi
     done
+
+    # Get the user id.
+    USER_ID_OK=false
+    while ! [[ ${USER_ID_OK} = true ]]; do
+        echo "Enter user id (or enter to automatically set):"
+        read user_id
+
+        if [[ -z ${user_id} ]]; then
+            # It's empty. That's ok.
+            echo "Automatically setting user id."
+            USER_ID_OK=true
+        elif ! expr -- "${user_id}" + 0 > /dev/null 2>&1; then
+            # it is non-numeric.
+            echo "User ID must be numeric."
+            USER_ID_OK=false
+        elif getent passwd ${user_id}; then
+            # user id exists.
+            echo "User ID ${user_id} exists!"
+            USER_ID_OK=false
+        fi
+    done
+
 
 }
 
