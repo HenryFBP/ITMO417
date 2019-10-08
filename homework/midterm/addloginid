@@ -42,7 +42,10 @@ ALLOWED_SHELL_PATHS=(
 "sh"
 "csh"
 "ksh"
+"zsh"
 "bash"
+"fish"
+"ashellthatdoesntexist"
 )
 
 # Lets the user pick a value from a list.
@@ -91,22 +94,52 @@ function main() {
     echo "This script sets up a new user."
     echo "It will ask you for a username, comment, UID (user id; optional), GID (group id; optional), and preferred shell."
 
+    # Get username.
     while [[ -z ${username} || (( ${#username} -lt 3 )) ]]; do
         echo "Enter username (3+ characters):"
         echo_prompt
         read username
     done
 
+    # Get comment.
     while [[ -z ${comment} ]]; do
         echo "Enter comment:"
         echo_prompt
         read comment
     done
 
-    echo "Enter preferred shell:"
-    pick_string_from_list "${ALLOWED_SHELL_PATHS[@]}"
-    shell=${RETURN_VALUE}
+    # Get preferred shell.
+    while [[ -z ${shell} ]]; do
+        echo "Enter preferred shell:"
+        pick_string_from_list "${ALLOWED_SHELL_PATHS[@]}"
+        shell=${RETURN_VALUE}
 
+        # Make sure shell exists.
+        if [[ -z "`which ${shell}`" ]]; then
+            echo "Shell ${shell} does not exist or is not installed, or not on the \$PATH. Pick a different one."
+            unset shell
+        else
+            echo "Using '$shell' at '`which $shell`'."
+        fi
+
+    done
+
+    # Get the group id.
+    GROUP_ID_OK=false
+    while ! [[ ${GROUP_ID_OK} = true ]]; do
+        echo "Enter group id (or enter to automatically set):"
+        read group_id
+
+        if [[ -z ${group_id} ]]; then
+            # It's empty. That's ok.
+            echo "Automatically setting group id."
+            GROUP_ID_OK=true
+        elif ! expr -- "${group_id}" + 0 > /dev/null 2>&1; then
+            # it is non-numeric.
+            echo "Group ID must be numeric."
+            GROUP_ID_OK=false
+        fi
+    done
 
 }
 
