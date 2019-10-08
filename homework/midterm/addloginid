@@ -33,6 +33,49 @@ echo "By Henry Post, hpost@hawk.iit.edu.
 ITMO 417 at IIT
 "
 
+function echo_prompt() {
+  printf " > "
+}
+
+# Shells user is allowed to use.
+ALLOWED_SHELL_PATHS=(
+"sh"
+"csh"
+"ksh"
+"bash"
+)
+
+# Lets the user pick a value from a list.
+# First arg is the list.
+# Sets $RETURN_VALUE to their selected value.
+function pick_string_from_list() {
+
+    Options=("$@")
+    OptionsLen=${#Options[@]}
+
+    while true; do
+
+        for index in "${!Options[@]}"; do
+            echo "$index: ${Options[$index]}"
+        done
+
+        echo "Select an option (0-$(($OptionsLen - 1)))."
+
+        echo_prompt
+        read INPUT
+
+        if ! [[ "$INPUT" =~ ^[0-9]+$ ]]; then
+            echo "Input a number."
+        elif ((INPUT > (OptionsLen - 1))); then
+            echo "That number is too high!".
+        else
+            echo "Selecting '${Options[$INPUT]}'..."
+            RETURN_VALUE="${Options[$INPUT]}"
+            return 0
+        fi
+    done
+
+}
 # Make sure the script is being run as root.
 function ensure_superuser() {
     if [[ $EUID -ne 0 ]]; then
@@ -41,4 +84,30 @@ function ensure_superuser() {
     fi
 }
 
-ensure_superuser
+# Main loop.
+function main() {
+    ensure_superuser
+
+    echo "This script sets up a new user."
+    echo "It will ask you for a username, comment, UID (user id; optional), GID (group id; optional), and preferred shell."
+
+    while [[ -z ${username} || (( ${#username} -lt 3 )) ]]; do
+        echo "Enter username (3+ characters):"
+        echo_prompt
+        read username
+    done
+
+    while [[ -z ${comment} ]]; do
+        echo "Enter comment:"
+        echo_prompt
+        read comment
+    done
+
+    echo "Enter preferred shell:"
+    pick_string_from_list "${ALLOWED_SHELL_PATHS[@]}"
+    shell=${RETURN_VALUE}
+
+
+}
+
+main
