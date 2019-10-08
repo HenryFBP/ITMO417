@@ -12,4 +12,8 @@ Vagrant.configure('2') do |config|
 
   config.vm.provision 'shell', run: 'always', path: 'scripts/install_tools.sh'
 
+  config.vm.provider "virtualbox" do |v|
+    v.customize ["modifyvm", :id, "--vram", "128"]
+  end
+
 end
