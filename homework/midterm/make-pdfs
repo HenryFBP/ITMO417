@@ -4,4 +4,8 @@ pandoc -o hpost-midterm.out.pdf hpost-midterm.md --pdf-engine=xelatex
 
 enscript -2Gr -Ebash -o hpost-midterm-q3.out.pdf 03
 
+wkhtmltopdf 03-console-output.html 03-console-output.out.pdf
+
 enscript -2Gr -Ebash -o hpost-midterm-addloginid.out.pdf addloginid
+
+wkhtmltopdf addloginid-console-output.html addloginid-console-output.out.pdf

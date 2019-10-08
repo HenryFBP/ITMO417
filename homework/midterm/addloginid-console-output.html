@@ -1,0 +1,76 @@
+<pre><font color="#8AE234"><b>vagrant@linux</b></font>:<font color="#729FCF"><b>/ITMO417/homework/midterm</b></font>$ ./addloginid
+By Henry Post, hpost@hawk.iit.edu.
+ITMO 417 at IIT
+
+This script must be run as root. Your UID is 1000.
+<font color="#8AE234"><b>vagrant@linux</b></font>:<font color="#729FCF"><b>/ITMO417/homework/midterm</b></font>$ sudo ./addloginid
+By Henry Post, hpost@hawk.iit.edu.
+ITMO 417 at IIT
+
+This script sets up a new user.
+It will ask you for a username, comment, UID (user id; optional), GID (group id; optional), and preferred shell.
+Enter username (3+ characters):
+ &gt; no
+Enter username (3+ characters):
+ &gt; nope
+Enter comment:
+ &gt;
+Enter comment:
+ &gt; ok fine ill type a comment
+Enter preferred shell:
+0: sh
+1: csh
+2: ksh
+3: zsh
+4: bash
+5: fish
+6: ashellthatdoesntexist
+Select an option (0-6).
+ &gt; -1
+Input a number.
+0: sh
+1: csh
+2: ksh
+3: zsh
+4: bash
+5: fish
+6: ashellthatdoesntexist
+Select an option (0-6).
+ &gt; 20
+That number is too high!.
+0: sh
+1: csh
+2: ksh
+3: zsh
+4: bash
+5: fish
+6: ashellthatdoesntexist
+Select an option (0-6).
+ &gt; 5
+Selecting &apos;fish&apos;...
+Using &apos;fish&apos; at &apos;/usr/bin/fish&apos;.
+Enter group id (or enter to automatically set):
+
+Automatically setting group id.
+Enter user id (or enter to automatically set):
+
+Automatically setting user id.
+About to execute this command:
+useradd &apos;nope&apos; -m -c &apos;ok fine ill type a comment&apos; -s &apos;/usr/bin/fish&apos;
+Is this okay? (yes/n)
+ &gt; yes
+Continuing.
+total 32K
+4.0K drwxr-xr-x 2 nope nope 4.0K Oct  8 22:12 .
+4.0K drwxr-xr-x 6 root root 4.0K Oct  8 22:12 ..
+4.0K -rw-r--r-- 1 nope nope  220 Oct  8 22:12 .bash_logout
+4.0K -rw-r--r-- 1 nope nope 3.7K Oct  8 22:12 .bashrc
+ 12K -rw-r--r-- 1 nope nope 8.8K Oct  8 22:12 examples.desktop
+4.0K -rw-r--r-- 1 nope nope  807 Oct  8 22:12 .profile
+passwd: password expiry information changed.
+Enter new UNIX password:
+Retype new UNIX password:
+passwd: password updated successfully
+username=nope;GID=;UID= is set up!
+<font color="#8AE234"><b>vagrant@linux</b></font>:<font color="#729FCF"><b>/ITMO417/homework/midterm</b></font>$
+</pre>
