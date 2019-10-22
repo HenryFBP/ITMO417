@@ -70,8 +70,6 @@ Print the _second then first_ field in each line.
 
 i)  
 
-aaaa:aaaa:aaaa:aaaa:
-
 ```bash
 awk -F: '$1 ~ /^....$/ {print $3, $1}' file
 ```
