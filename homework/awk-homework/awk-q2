@@ -3,3 +3,29 @@
 echo "By Henry Post, hpost@hawk.iit.edu.
 ITMO 417 at IIT
 "
+
+#Create a file that contains four or five lines with the following format:
+#Username:Firstname:Lastname:Telephone number
+#Write an awk script that will convert such a line to an LDAP record in this format:
+#dn: uid=Username, dc=example, dc=com
+#cn: Firstname Lastname
+#sn: Lastname
+#telephoneNumber: Telephone number
+
+mkdir -p data/
+touch data/telephone-numbers.txt
+
+echo "henryfbp:Henry:Post:123-543-2123
+agrippatherippa:Agrippa:Rippa:666-666-6667
+sbelmont:Simon:Belmont:777-767-7770
+god:::000-000-0000" > data/telephone-numbers.txt
+
+cat data/telephone-numbers.txt | awk -F ":" '
+{
+    print "dn: uid=" $1 ", dc=example, dc=com"
+    print "cn: " $2 " " $3
+    print "sn: " $3
+    print "telephoneNumber: " $4
+    print "" # Just a newline.
+}
+'
