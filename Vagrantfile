@@ -3,7 +3,7 @@
 Vagrant.configure('2') do |config|
   config.vm.box = 'peru/ubuntu-18.04-desktop-amd64'
 
-  config.vm.synced_folder '.', '/mnt/ITMO417'
+  config.vm.synced_folder '.', '/ITMO417'
 
   config.ssh.username = 'vagrant'
   config.ssh.password = 'vagrant'

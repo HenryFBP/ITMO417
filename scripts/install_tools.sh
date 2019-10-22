@@ -2,6 +2,8 @@
 
 sudo apt-get update
 
+sudo apt install -y virtualbox-guest-additions-iso
+
 sudo apt-get install -y asciinema
 
 sudo apt-get install -y tree
