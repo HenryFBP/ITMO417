@@ -4,3 +4,5 @@
   - .git
 :files:
   - hpost-awk-homework.md
+  - .code2pdf
+  - makepdfs
