@@ -2,6 +2,12 @@
 
 pandoc -o hpost-awk-homework.out.pdf hpost-awk-homework.md --pdf-engine=xelatex
 
+./awk-q1j > awk-q1j.out.txt
+./awk-q1k > awk-q1k.out.txt
+./awk-q2 > awk-q2.out.txt
+./awk-q3 > awk-q3.out.txt
+./awk-q4 > awk-q4.out.txt
+
 # from https://github.com/lucascaton/code2pdf
 code2pdf .
 mv _.pdf hpost-awk-homework-code.out.pdf
