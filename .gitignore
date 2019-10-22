@@ -2,5 +2,7 @@
 .idea/
 text2pdf*/
 *.out.pdf
+*.out.txt
 .fuse_hidden*
 junk/
+data/
