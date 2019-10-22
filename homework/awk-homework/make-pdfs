@@ -2,3 +2,6 @@
 
 pandoc -o hpost-awk-homework.out.pdf hpost-awk-homework.md --pdf-engine=xelatex
 
+# from https://github.com/lucascaton/code2pdf
+code2pdf .
+mv _.pdf hpost-awk-homework-code.out.pdf
