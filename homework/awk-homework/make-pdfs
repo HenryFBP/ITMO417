@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+pandoc -o hpost-awk-homework.out.pdf hpost-awk-homework.md --pdf-engine=xelatex
+
