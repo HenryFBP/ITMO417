@@ -1,3 +1,5 @@
+# Files/folders for code2pdf to ignore.
+
 :directories:
   - .git
 :files:
