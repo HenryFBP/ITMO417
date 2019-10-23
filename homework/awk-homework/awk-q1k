@@ -6,4 +6,8 @@ ITMO 417 at IIT
 
 # k) Using awk, write a command to display fields 1 and 5 from file /etc/passwd.
 
-awk -F ":" '{print $1, $5}' /etc/passwd
+cat /etc/passwd | awk -F ":" '
+{
+    print $1, $5
+}
+'
