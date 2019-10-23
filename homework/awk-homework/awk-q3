@@ -3,3 +3,85 @@
 echo "By Henry Post, hpost@hawk.iit.edu.
 ITMO 417 at IIT
 "
+
+# Observe a few lines of the output of the last command which displays information on every login
+# session of every user. The last field shows the usage in hours:minutes for that session:
+
+# Print a summary report for each user that shows the total number of hours and minutes of
+# computer time that he or she has consumed. Note that the output contains a variable number of
+# fields and a user can occur multiple times.
+
+
+function echo_hhmm_to_minutes {
+    # First arg
+    HHMM=$1
+
+    # Cut by colon
+    HH=`echo ${HHMM} | awk -F ":" '{print $1}'`
+    MM=`echo ${HHMM} | awk -F ":" '{print $2}'`
+
+    # Remove leading zeroes
+    HH=$(echo ${HH} | sed 's/^0*//')
+    MM=$(echo ${MM} | sed 's/^0*//')
+
+    echo $((MM + 60 * HH ))
+}
+
+
+# Run this command and save it in a list.
+# [username, time, username2, time2, etc]
+USERNAME_DATA=($(last | grep -P '\(\d\d:\d\d\)' | awk '
+{
+    print $1 " " $NF
+}
+' | tr -d "()"))
+
+# List of HH:MM times.
+TIMES=()
+
+# List of usernames.
+USERNAMES=()
+
+for (( i = 0; i < ${#USERNAME_DATA[@]}; i=i+2 )); do
+    USERNAMES+=(${USERNAME_DATA[i]})
+    TIMES+=(${USERNAME_DATA[$((i+1))]})
+done
+
+if [[ "${#TIMES[@]}" != "${#USERNAMES[@]}" ]]; then
+    echo "Times and usernames must have the same amount of elements!"
+fi
+
+#echo 'USERNAME_DATA length:'
+#echo ${#USERNAME_DATA[@]}
+#
+#echo ${USERNAMES[0]}
+#echo ${TIMES[0]}
+
+declare -A USERNAMETIMESAA
+
+for (( i = 0; i < ${#USERNAMES[@]}; ++i )); do
+    uname=${USERNAMES[i]}
+    atime=${TIMES[i]}
+    numtime=$(echo_hhmm_to_minutes $atime)
+
+#    echo "At position $i with $uname and $atime aka $numtime minutes"
+
+    if ! [[ ${USERNAMETIMESAA[$uname]} ]]; then
+#        echo "Haven't seen $uname before. Setting their time."
+        USERNAMETIMESAA[$uname]=${numtime}
+    else
+#        echo "Seen $uname before. Currently they have ${USERNAMETIMESAA[$uname]} minutes."
+#        echo "Adding ${numtime} to it for a total of $((${USERNAMETIMESAA[$uname]} + ${numtime}))"
+        USERNAMETIMESAA[$uname]=$((${USERNAMETIMESAA[$uname]} + ${numtime}))
+    fi
+    
+done
+
+for i in "${!USERNAMETIMESAA[@]}"; do
+  echo "User: $i"
+  echo "Minutes spent: ${USERNAMETIMESAA[$i]}"
+  echo "Hours spent: $(echo ${USERNAMETIMESAA[$i]}/60 | bc)"
+  echo ""
+done
+
+
