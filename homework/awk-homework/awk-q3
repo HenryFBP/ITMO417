@@ -81,6 +81,7 @@ for i in "${!USERNAMETIMESAA[@]}"; do
   echo "User: $i"
   echo "Minutes spent: ${USERNAMETIMESAA[$i]}"
   echo "Hours spent: $(echo ${USERNAMETIMESAA[$i]}/60 | bc)"
+  echo "Days spent: $(echo ${USERNAMETIMESAA[$i]}/60/24 | bc)"
   echo ""
 done
 
