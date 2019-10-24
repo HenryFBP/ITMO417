@@ -1,0 +1,8 @@
+# Files/folders for code2pdf to ignore.
+
+:directories:
+  - .git
+:files:
+  - hpost-awk-homework.md
+  - .code2pdf
+  - make-pdfs

@@ -1,0 +1,32 @@
+#!/usr/bin/env perl
+
+use strict;
+use warnings;
+use warnings FATAL => 'all';
+
+use Data::Dumper;
+
+
+=pod
+    Question #2
+    Write a program that asks the user to enter a list of words. Sort the list and print the
+    sorted results. Do not use a loop to do this exercise. Sample output:
+    Please enter several words: perl is so much fun!
+    In sorted order: fun! is much perl so
+=cut
+
+print "Henry Post, hpost\@hawk.iit.edu, ITMO 417 at IIT.\n";
+
+print("Enter some words separated by spaces:\n > ");
+
+my $input = <STDIN>;
+chomp $input;
+
+my @inputarr = split(/ /, $input);
+my @sortedinputarr = sort {$a cmp $b} @inputarr;
+
+print "Sorted:\n";
+
+foreach (@sortedinputarr) {
+    print $_ . " "
+}

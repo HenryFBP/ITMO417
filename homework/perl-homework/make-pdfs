@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+# from https://github.com/lucascaton/code2pdf
+code2pdf .
+mv _.pdf hpost-perl-homework-code.out.pdf

@@ -1,0 +1,29 @@
+#!/usr/bin/env perl
+
+use strict;
+use warnings;
+use warnings FATAL => 'all';
+
+=pod
+    Question #1
+    Write a program to prompt the user for a Yes or No response. Read in the user response
+    using the STDIN file handle and print “OK” if the user enters “Yes,” “I hear you” if the user
+    enters “No,” and “Make up your mind!” if the user enters something other than “Yes” or “No.”
+=cut
+
+print "Henry Post, hpost\@hawk.iit.edu, ITMO 417 at IIT.\n";
+
+print "Enter Yes/No: \n > ";
+
+my $input = <STDIN>;
+chomp $input;
+
+if ($input eq "Yes") {
+    print("OK")
+}
+elsif ($input eq "No") {
+    print("I hear you");
+}
+else {
+    print("Make up your mind!")
+}
