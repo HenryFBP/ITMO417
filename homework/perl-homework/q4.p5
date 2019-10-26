@@ -1,0 +1,36 @@
+#!/usr/bin/env perl
+
+use strict;
+use warnings;
+use warnings FATAL => 'all';
+
+use Data::Dumper;
+
+=pod
+    Question #4
+    Using Perl, write a script called greetings. The script should print any one of the following
+    messages according to your system time:
+    Good Morning
+    Good Afternoon
+    Good Evening (consider 5:00pm above as Evening time).
+=cut
+
+print "Henry Post, hpost\@hawk.iit.edu, ITMO 417 at IIT.\n";
+
+my $AFTERNOON_FLOOR = (0 + 12); #noon
+my $EVENING_FLOOR = (5 + 12);   #5PM
+
+(my $sec, my $min, my $hour, my $mday, my $mon, my $year, my $wday, my $yday, my $isdst) = localtime();
+
+print("Hour is $hour, minutes are $min, seconds is $sec.\n");
+print("It is " . ($hour >= 12 ? "after" : "before") . " noon.\n");
+
+if ($hour < $AFTERNOON_FLOOR) {
+    print("Good morning!")
+}
+elsif ($hour < $EVENING_FLOOR) {
+    print("Good afternoon!")
+}
+else {
+    print("Good night!")
+}

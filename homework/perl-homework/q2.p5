@@ -25,8 +25,13 @@ chomp $input;
 my @inputarr = split(/ /, $input);
 my @sortedinputarr = sort {$a cmp $b} @inputarr;
 
-print "Sorted:\n";
+print "Unsorted:\n";
+foreach (@inputarr) {
+    print $_ . " "
+}
+print("\n");
 
+print "Sorted:\n";
 foreach (@sortedinputarr) {
     print $_ . " "
 }

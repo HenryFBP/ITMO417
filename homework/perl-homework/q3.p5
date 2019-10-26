@@ -1,0 +1,34 @@
+#!/usr/bin/env perl
+
+use strict;
+use warnings;
+use warnings FATAL => 'all';
+
+use Sys::Hostname;
+
+=pod
+    Question #3
+    Using Perl language, write a script called information that will do the following.
+    Greet the user.
+    Print the date and the time.
+    Print the name of your machine.
+    Print the name and release of this operating system, (cat /etc/os-release).
+    Print your disk usage (du).
+    Use the id command to print your group ID.
+=cut
+
+print "Henry Post, hpost\@hawk.iit.edu, ITMO 417 at IIT.\n";
+
+print("Hello there!\n");
+
+print "Currently, it is '".gmtime()."'.\n";
+
+print("Hostname is '".hostname."'.\n");
+
+print("OS Release information:\n");
+
+system("cat", "/etc/os-release");
+print("\n");
+
+print("ID/group of user running this script:\n");
+system("id")

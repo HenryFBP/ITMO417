@@ -1,5 +1,15 @@
 #!/usr/bin/env bash
 
+echo "Yes" | perl q1.p5 > q1.p5.Yes.out.txt
+echo "No" | perl q1.p5 > q1.p5.No.out.txt
+echo "Potatoes" | perl q1.p5 > q1.p5.Potatoes.out.txt
+
+echo "x y z a b c what is a man but a miserable little pile of secrets?" | perl q2.p5 > q2.p5.castlevania-text.out.txt
+
+perl q3.p5 > q3.p5.out.txt
+
+perl q4.p5 > q4.p5.out.txt
+
 # from https://github.com/lucascaton/code2pdf
 code2pdf .
 mv _.pdf hpost-perl-homework-code.out.pdf
