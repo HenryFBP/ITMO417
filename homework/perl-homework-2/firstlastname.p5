@@ -1,0 +1,46 @@
+#!/usr/bin/env perl
+
+use strict;
+use warnings;
+use warnings FATAL => 'all';
+
+=pod
+    Hash
+
+    Create a hash with the following firstname-lastname pairs:
+    John Norman
+    Robert Anson
+    Christopher Fowler
+    Robert Harris
+    Dan Simmons
+
+    Now, add code to prompt for a first name. Use that to retrieve the last name.
+=cut
+
+print "Henry Post, hpost\@hawk.iit.edu, ITMO 417 at IIT.\n";
+
+my %firstlastnames = (
+    "John", "Norman",
+    "Robert", "Anson",
+    "Christopher", "Fowler",
+    "Robert", "Harris",
+    "Dan", "Simmons"
+);
+
+print("Recognized first names:\n");
+
+map {print "$_\n"} keys %firstlastnames;
+
+print "Enter your name to search for: \n > ";
+
+my $input = <STDIN>;
+chomp $input;
+
+# Capitalize first letter.
+$input = ucfirst(lc uc $input);
+
+if(! defined $firstlastnames{$input}) {
+    print("$input is not a recognized first name.")
+} else {
+    print("The last name of '$input' is '$firstlastnames{$input}'.")
+}

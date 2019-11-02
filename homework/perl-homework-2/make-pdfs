@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+echo "Jack" | perl firstlastname.p5 > firstlastname.p5.Jack.out.txt
+echo "Henry" | perl firstlastname.p5 > firstlastname.p5.Henry.out.txt
+echo "John" | perl firstlastname.p5 > firstlastname.p5.John.out.txt
+echo "Christopher" | perl firstlastname.p5 > firstlastname.p5.Christopher.out.txt
+
+# from https://github.com/lucascaton/code2pdf
+code2pdf .
+mv _.pdf hpost-perl-homework-2-code.out.pdf
