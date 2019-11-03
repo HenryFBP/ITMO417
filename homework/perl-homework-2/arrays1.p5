@@ -1,0 +1,72 @@
+#!/usr/bin/env perl
+
+use strict;
+use warnings;
+use warnings FATAL => 'all';
+
+use Data::Dumper;
+
+=pod
+    Question #1
+    Create a Perl script that will perform the following tasks:
+    a) Create an array listing six of your favorite foods and six of your least liked
+    foods.
+    b) Move the disliked foods to another array.
+    c) Print out the first three items in the favorite foods array. Include some
+    descriptive text to clarify your output.
+    d) Ask the user to input another disliked food and append this new item to the
+    array of disliked foods.
+    e) Move the newly added element to the beginning of the disliked foods array.
+    f) For the "favorite foods" array, move the value of the first element of the array
+    to become the last element of the same array.
+    g) Print out the first and last elements of both arrays to show the changes from
+    the previous step.
+    h) Print to the terminal the number of elements in each array with some text.
+=cut
+
+print "Henry Post, hpost\@hawk.iit.edu, ITMO 417 at IIT.\n";
+
+# PART A
+my @favefoods = ("kebab", "deep dish pizza", "falafel", "hummus", "tabouleh");
+my @favefoodsDesc = (
+    "I like lamb kebabs because they are really tender and juicy.",
+    "I like deep dish pizza for the same reasons as lamb kebabs, but with cheese.",
+    "Falafel are really good with baba ganoush!",
+);
+
+my @hatefoods = ("raw tomatoes", "28-year-old addams family cereal", "coca-cola", "vegemite", "mayo");
+my @hatefoods2 = ();
+
+# PART B
+# Copy items into new array
+foreach my $elem (@hatefoods) {
+    print("Copying '$elem' to new array of disliked foods...\n");
+    push(@hatefoods2, $elem)
+}
+
+
+# PART C
+while (my ($index, $element) = each(@favefoodsDesc)) {
+    # You may need to "use feature 'say';"
+    print("Reason for liking: '$favefoods[$index]':\n");
+    print($element . "\n")
+}
+
+# PART D
+print("Enter another disliked food:\n > ");
+
+my $input = <STDIN>;
+chomp $input;
+
+push(@hatefoods2, $input);
+
+# PART E
+unshift(@hatefoods2, pop(@hatefoods2));
+
+print("original disliked foods array:\n");
+print(Dumper @hatefoods);
+print("\n\n");
+
+print("new disliked foods array:\n");
+print(Dumper @hatefoods2);
+print("\n\n")

@@ -5,6 +5,11 @@ echo "Henry" | perl firstlastname.p5 > firstlastname.p5.Henry.out.txt
 echo "John" | perl firstlastname.p5 > firstlastname.p5.John.out.txt
 echo "Christopher" | perl firstlastname.p5 > firstlastname.p5.Christopher.out.txt
 
+echo "Soggy white rice" | perl arrays1.p5 > arrays1.p5.Soggy_white_rice.out.txt
+echo "Cold burgers" | perl arrays1.p5 > arrays1.p5.Cold_burgers.out.txt
+
+perl arrays2.p5 > arrays2.p5.out.txt
+
 # from https://github.com/lucascaton/code2pdf
 code2pdf .
 mv _.pdf hpost-perl-homework-2-code.out.pdf
