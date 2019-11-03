@@ -1,0 +1,96 @@
+#!/usr/bin/env perl
+
+use strict;
+use warnings;
+use warnings FATAL => 'all';
+
+=pod
+    Question #2
+    On Linux machines, the file /etc/passwd contains a list of users on a system.
+        root:x:0:0:root:/root:/bin/bash
+        bin:x:1:1:bin:/bin:
+        daemon:x:2:2:daemon:/sbin:
+        nobody:x:99:99:Nobody:/:
+    Each line contains a user name, password (all x here), user id, group id, name, home
+    directory, and shell. The fields are separated by colons. Write a Perl program to do
+    the following tasks:
+    • Count how many usernames that are using bash shell and those that are using nologin
+    shell.
+    • Write a Perl program that prints out the largest UID number.
+    • Display all usernames where the user id is less than 1000.
+    • Display all usernames that are greater or equal to 2000, sorted by username.
+=cut
+
+
+print "Henry Post, hpost\@hawk.iit.edu, ITMO 417 at IIT.\n";
+
+my $passwdFileData = `cat /etc/passwd`;
+
+# Split by newline
+my @passwdFileList = split("\n", $passwdFileData);
+
+# 2d arr of /etc/passwd rows/fields
+my @passwdFileList2d;
+
+# For all rows,
+while (my ($index, $element) = each(@passwdFileList)) {
+
+    # Split by colon into @splitRow
+    my @splitRow = split(":", $element);
+
+    # Append list of fields to @passwdFileList2d
+    push(@passwdFileList2d, \@splitRow);
+}
+
+# print($passwdFileList2d[0][0]); # should be root's username, first entry first column in /etc/passwd
+
+my $nologincount = 0;
+my $bashcount = 0;
+my $largestuid = -1;
+my @usernameslt1000 = ();
+my @usernamesgeq2000 = ();
+
+# Loop over all entries.
+while (my ($columnidx, $row) = each(@passwdFileList2d)) {
+
+    # Print UID
+    print("UID $columnidx: ");
+
+    # Print all individual fields (i.e. root then x then 0 etc)
+    while (my ($rowidx, $entry) = each(@$row)) {
+        print("$entry:")
+    }
+
+    print("\n");
+
+    # Count up nologin shells.
+    if ($row->[6] =~ /nologin/) {
+        $nologincount++;
+    }
+    # Count up bash shells.
+    elsif ($row->[6] =~ /bash/) {
+        $bashcount++;
+    }
+
+    # Largest UID
+    if (int($row->[2]) > $largestuid) {
+        $largestuid = $row->[2];
+    }
+
+    # Usernames with a UID < 1000
+    if (int($row->[2]) < 1000) {
+        push(@usernameslt1000, $row->[0]);
+    }
+
+    # Usernames with a UID >= 2000, sorted by username
+    if (int($row->[2]) >= 2000) {
+        push(@usernamesgeq2000, $row->[0]);
+        @usernamesgeq2000 = sort @usernamesgeq2000;
+    }
+}
+print("\n");
+print("$nologincount users have nologin as their shell.\n\n");
+print("$bashcount users have bash as their shell.\n\n");
+print("Largest UID: $largestuid\n\n");
+print("Usernames with UID < 1000: \n" . join(' ', @usernameslt1000) . "\n\n");
+print("Usernames with UID >= 2000: \n" . join(' ', @usernamesgeq2000) . "\n\n");
