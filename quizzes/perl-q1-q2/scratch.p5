@@ -1,0 +1,32 @@
+#!/usr/bin/perl
+
+my @a = (1, 2, 3, 4);
+
+my $v = pop(@a);
+
+print($v);
+
+print("\n");
+print("Hello World");
+print("\n");
+
+my %fruit = (
+    "apple", "red",
+    "banana", "yellow"
+);
+
+print($fruit{"apple"});
+
+my $var = `pwd`;
+
+print($var);
+
+my @words = qw(zero one two three four five six seven);
+
+print $words[2] . "\n";
+
+my @names = qw(George Jack Davis);
+
+print $^V . "\n";
+
+print $];

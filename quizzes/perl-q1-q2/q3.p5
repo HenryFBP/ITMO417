@@ -1,0 +1,12 @@
+#!/usr/bin/perl
+# simple I/O pgm
+#
+print "Enter your age: ";
+$age = <STDIN>;
+chomp $age ;
+print "Hmmm....you are $age years old\n";
+
+print "Enter your full name: ";
+$name = <STDIN>;
+chomp $name ;
+print "Hello $name\n";
