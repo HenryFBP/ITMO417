@@ -42,6 +42,8 @@ Submit your script with several test results. Include successful output and fail
 Demonstrate that you have done a thorough test on your script.
 =cut
 
+my @ALLOWED_SHELLS = qw(sh csh ksh zsh bash fish ashellthatdoesntexist);
+
 if ($< != 0) {
     print("Current user's ID is $<, which is not root's UID (0).\n");
     print("You must be superuser to run this script.\n")
@@ -53,19 +55,55 @@ sub echo_prompt() {
 
 # Lets the user pick a value from a list.
 # First arg is the list.
-# Sets $RETURN_VALUE to their selected value.
 sub pick_string_from_list {
 
+    # Reference to input array
     my ($list_ref) = @_;
 
-    print('todo'); #TODO
-    print($list_ref->[1]);
+    # Dereference...reference...I think, and get length of it.
+    my $list_len = (scalar @$list_ref) - 1;
 
+    # print('todo'); #TODO
+    # print($list_ref->[1]);
 
+    my $valid_input = 0;
+
+    while ($valid_input == 0) {
+
+        # Print their number range
+        print("Valid choices: 0-" . $list_len . ":\n");
+
+        # Print the list of strings
+        for (my $i = 0; $i <= $list_len; $i++) {
+            print "$i) " . $list_ref->[$i] . "\n";
+        }
+
+        my $input = <STDIN>;
+        chomp $input;
+        print("You input '$input'.\n");
+
+        # If number is numeric,
+        if ($input =~ /^[0-9]$/) {
+            $input = int($input);
+
+            # If <0 or >max
+            if ($input < 0 || $input > $list_len) {
+                print("$input is out of range!\n")
+            } else { # Numeric and in range. Good!
+                return $list_ref->[$input]
+            }
+        }
+        else {
+            print("'$input' is not numeric!\n")
+        }
+
+        die("laziness");
+
+    }
 }
-
-my @ALLOWED_SHELLS = qw(sh csh ksh zsh bash fish ashellthatdoesntexist);
 
 print "Henry Post, hpost\@hawk.iit.edu, ITMO 417 at IIT.\n";
 
-my $selectedShell = pick_string_from_list(\@ALLOWED_SHELLS)
+my $selectedShell = pick_string_from_list(\@ALLOWED_SHELLS);
+
+print("You've selected $selectedShell as your shell.")
