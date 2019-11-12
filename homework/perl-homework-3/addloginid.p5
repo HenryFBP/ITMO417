@@ -66,7 +66,7 @@ sub get_string_min_length {
 
     while (1) {
 
-        print("The '$name' be $min_length characters or longer:\n");
+        print("The '$name' must be $min_length characters or longer:\n");
 
         my $input = <STDIN>;
         chomp $input;
@@ -136,6 +136,13 @@ sub user_exists {
     return `getent passwd $username`
 }
 
+# Does this group id exist?
+sub group_id_exists {
+    my ($groupid) = @_;
+
+    return `getent group $groupid`
+}
+
 sub main {
 
     ensure_superuser;
@@ -161,6 +168,10 @@ sub main {
     my $selectedShell = pick_string_from_list(\@ALLOWED_SHELLS, 'shell');
 
     print("You've selected $selectedShell as your shell.\n");
+
+    my $comment = get_string_min_length(0, "comment");
+
+    print("You've selected '$comment' as your comment.");
 
 }
 
