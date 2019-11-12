@@ -48,8 +48,10 @@ my @ALLOWED_SHELLS = qw(sh csh ksh zsh bash fish ashellthatdoesntexist);
 
 sub ensure_superuser {
     if ($< != 0) {
-        print("Current user's ID is $<, which is not root's UID (0).\n");
-        print("You must be superuser to run this script.\n")
+        die(
+            ("Current user's ID is $<, which is not root's UID (0).\n") .
+                ("You must be superuser to run this script.\n")
+        );
     }
 }
 
@@ -60,11 +62,11 @@ sub echo_prompt {
 # This function will ask the user for a string with a minimum length, repeatedly
 # until it is satisfied.
 sub get_string_min_length {
-    my ($min_length) = @_;
+    my ($min_length, $name) = @_;
 
     while (1) {
 
-        print("Enter a value $min_length characters or longer:\n");
+        print("The '$name' be $min_length characters or longer:\n");
 
         my $input = <STDIN>;
         chomp $input;
@@ -73,7 +75,7 @@ sub get_string_min_length {
         # If number is numeric,
         if ((length($input)) < $min_length) {
             print("'$input' is not long enough!\n");
-            print("It is only " . (length $input) . " characters long, but it should be $min_length characters long!\n")
+            print("The '$name' is only " . (length $input) . " characters long, but it should be $min_length characters long!\n")
         }
         else {
             return $input
@@ -87,7 +89,7 @@ sub get_string_min_length {
 sub pick_string_from_list {
 
     # Reference to input array
-    my ($list_ref) = @_;
+    my ($list_ref, $name) = @_;
 
     # Dereference...reference...I think, and get length of it.
     my $list_len = (scalar @$list_ref) - 1;
@@ -98,7 +100,7 @@ sub pick_string_from_list {
     while (1) {
 
         # Print their number range
-        print("Valid choices: 0-" . $list_len . ":\n");
+        print("Valid choices of '$name': 0-" . $list_len . ":\n");
 
         # Print the list of strings
         for (my $i = 0; $i <= $list_len; $i++) {
@@ -127,17 +129,38 @@ sub pick_string_from_list {
     }
 }
 
+# Does this user exist?
+sub user_exists {
+    my ($username) = @_;
+
+    return `getent passwd $username`
+}
+
 sub main {
 
     ensure_superuser;
 
-    my $selectedShell = pick_string_from_list(\@ALLOWED_SHELLS);
+    print "This script sets up a new user.\n";
+    print "It will ask you for a username, comment, UID (user id; optional), GID (group id; optional), and preferred shell.\n";
+
+    # Get username
+    my $username;
+    while (1) {
+        $username = get_string_min_length(3, "username");
+
+        if (user_exists($username)) {
+            print("User '$username' already exists!\n")
+        }
+        else { # It doesn't exist, they're good.
+            last;
+        }
+    }
+
+    print("You've selected $username as your username.\n");
+
+    my $selectedShell = pick_string_from_list(\@ALLOWED_SHELLS, 'shell');
 
     print("You've selected $selectedShell as your shell.\n");
-
-    my $username = get_string_min_length(3);
-
-    print("You've selected $username as your username.\n")
 
 }
 
