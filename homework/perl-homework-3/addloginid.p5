@@ -43,8 +43,8 @@ Demonstrate that you have done a thorough test on your script.
 =cut
 
 if ($< != 0) {
-    print("Current user's ID is $<, which is not root.\n");
-    print("You must be superuser to run this script.")
+    print("Current user's ID is $<, which is not root's UID (0).\n");
+    print("You must be superuser to run this script.\n")
 }
 
 sub echo_prompt() {
@@ -54,14 +54,18 @@ sub echo_prompt() {
 # Lets the user pick a value from a list.
 # First arg is the list.
 # Sets $RETURN_VALUE to their selected value.
-sub pick_string_from_list() {
+sub pick_string_from_list {
 
-    my @Options = $_;
+    my ($list_ref) = @_;
 
-    print('todo') #TODO
+    print('todo'); #TODO
+    print($list_ref->[1]);
+
+
 }
 
 my @ALLOWED_SHELLS = qw(sh csh ksh zsh bash fish ashellthatdoesntexist);
 
 print "Henry Post, hpost\@hawk.iit.edu, ITMO 417 at IIT.\n";
 
+my $selectedShell = pick_string_from_list(\@ALLOWED_SHELLS)
