@@ -66,9 +66,7 @@ sub pick_string_from_list {
     # print('todo'); #TODO
     # print($list_ref->[1]);
 
-    my $valid_input = 0;
-
-    while ($valid_input == 0) {
+    while (1) {
 
         # Print their number range
         print("Valid choices: 0-" . $list_len . ":\n");
@@ -89,16 +87,14 @@ sub pick_string_from_list {
             # If <0 or >max
             if ($input < 0 || $input > $list_len) {
                 print("$input is out of range!\n")
-            } else { # Numeric and in range. Good!
+            }
+            else { # Numeric and in range. Good!
                 return $list_ref->[$input]
             }
         }
         else {
             print("'$input' is not numeric!\n")
         }
-
-        die("laziness");
-
     }
 }
 
