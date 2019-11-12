@@ -42,6 +42,26 @@ Submit your script with several test results. Include successful output and fail
 Demonstrate that you have done a thorough test on your script.
 =cut
 
+if ($< != 0) {
+    print("Current user's ID is $<, which is not root.\n");
+    print("You must be superuser to run this script.")
+}
+
+sub echo_prompt() {
+    printf " > "
+}
+
+# Lets the user pick a value from a list.
+# First arg is the list.
+# Sets $RETURN_VALUE to their selected value.
+sub pick_string_from_list() {
+
+    my @Options = $_;
+
+    print('todo') #TODO
+}
+
+my @ALLOWED_SHELLS = qw(sh csh ksh zsh bash fish ashellthatdoesntexist);
 
 print "Henry Post, hpost\@hawk.iit.edu, ITMO 417 at IIT.\n";
 
