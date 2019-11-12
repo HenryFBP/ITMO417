@@ -4,6 +4,8 @@ use strict;
 use warnings;
 use warnings FATAL => 'all';
 
+print "Henry Post, hpost\@hawk.iit.edu, ITMO 417 at IIT.\n";
+
 =pod
 Rewrite your midterm “Customize add login id script” from bash to Perl Language
 The Linux command useradd allows a system administrator to create login accounts. The
@@ -44,13 +46,40 @@ Demonstrate that you have done a thorough test on your script.
 
 my @ALLOWED_SHELLS = qw(sh csh ksh zsh bash fish ashellthatdoesntexist);
 
-if ($< != 0) {
-    print("Current user's ID is $<, which is not root's UID (0).\n");
-    print("You must be superuser to run this script.\n")
+sub ensure_superuser {
+    if ($< != 0) {
+        print("Current user's ID is $<, which is not root's UID (0).\n");
+        print("You must be superuser to run this script.\n")
+    }
 }
 
-sub echo_prompt() {
+sub echo_prompt {
     printf " > "
+}
+
+# This function will ask the user for a string with a minimum length, repeatedly
+# until it is satisfied.
+sub get_string_min_length {
+    my ($min_length) = @_;
+
+    while (1) {
+
+        print("Enter a value $min_length characters or longer:\n");
+
+        my $input = <STDIN>;
+        chomp $input;
+        print("You input '$input'.\n");
+
+        # If number is numeric,
+        if ((length($input)) < $min_length) {
+            print("'$input' is not long enough!\n");
+            print("It is only " . (length $input) . " characters long, but it should be $min_length characters long!\n")
+        }
+        else {
+            return $input
+        }
+    }
+
 }
 
 # Lets the user pick a value from a list.
@@ -98,8 +127,19 @@ sub pick_string_from_list {
     }
 }
 
-print "Henry Post, hpost\@hawk.iit.edu, ITMO 417 at IIT.\n";
+sub main {
 
-my $selectedShell = pick_string_from_list(\@ALLOWED_SHELLS);
+    ensure_superuser;
 
-print("You've selected $selectedShell as your shell.")
+    my $selectedShell = pick_string_from_list(\@ALLOWED_SHELLS);
+
+    print("You've selected $selectedShell as your shell.\n");
+
+    my $username = get_string_min_length(3);
+
+    print("You've selected $username as your username.\n")
+
+}
+
+
+main()
