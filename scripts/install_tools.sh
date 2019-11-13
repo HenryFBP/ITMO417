@@ -11,3 +11,6 @@ sudo apt-get install -y tree
 sudo apt-get install -y fish
 
 sudo apt install -y ssmtp
+
+sudo apt install -y ruby
+sudo gem install code2pdf
