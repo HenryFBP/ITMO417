@@ -67,18 +67,42 @@ sub get_string_min_length {
     while (1) {
 
         print("The '$name' must be $min_length characters or longer:\n");
+        echo_prompt;
 
         my $input = <STDIN>;
         chomp $input;
         print("You input '$input'.\n");
 
-        # If number is numeric,
+        # If input is not long enough,
         if ((length($input)) < $min_length) {
             print("'$input' is not long enough!\n");
             print("The '$name' is only " . (length $input) . " characters long, but it should be $min_length characters long!\n")
         }
         else {
             return $input
+        }
+    }
+
+}
+
+# Ask for a numeric value from the user.
+sub get_numeric_value {
+    my ($name) = @_;
+
+    while (1) {
+
+        print("Enter '$name' number:\n");
+
+        my $input = <STDIN>;
+        chomp $input;
+        print("You input '$input'.\n");
+
+        # If input is numeric,
+        if (($input =~ /^[0-9]+$/)) {
+            return $input
+        }
+        else {
+            print("'$input' is not numeric!\n");
         }
     }
 
@@ -143,15 +167,99 @@ sub group_id_exists {
     return `getent group $groupid`
 }
 
+sub user_id_exists {
+    my ($userid) = @_;
+
+    return `getent passwd $userid`
+}
+
+# For when you need "YES" or "NO" in full.
+sub get_yes_no_full {
+
+    while (1) {
+        chomp(my $input = <STDIN>);
+
+        if ($input =~ /^YES$/) {
+            return $input;
+        }
+        elsif ($input =~ /^NO$/) {
+            return "";
+        }
+        else {
+            print("$input does not match YES or NO. Please enter it in full.");
+        }
+
+    }
+
+
+}
+
+sub get_yn_no_print {
+    chomp(my $input = <STDIN>);
+
+    if ($input =~ /^[Y]?$/i) { # Match Yy or blank
+        return "true"
+    }
+    else { # False or 'n' or something else
+        return ""
+    }
+}
+
+sub get_yn_prompt {
+    echo_prompt();
+    return get_yn_no_print()
+}
+
+# Get a shell's path, or '' if DNE.
+sub shell_path {
+    my ($shell) = @_;
+
+    return `which $shell`
+}
+
+# Does this shell exist on the path?
+sub shell_exists {
+    my ($shell) = @_;
+
+    return shell_path($shell)
+}
+
+sub make_useradd_command {
+    my ($username, $groupid, $userid, $comment, $shellPath) = @_;
+
+    my $command = "useradd '$username' -m -c '$comment' -s '$shellPath'";
+
+    # If uid is not empty,
+    if ($userid ne '') {
+        $command = $command . " -u $userid"
+    }
+
+    # If group id is not empty,
+    if ($groupid ne '') {
+        $command = $command . " -g $groupid"
+    }
+
+    return $command;
+}
+
 sub main {
 
     ensure_superuser;
+
+    # Vars user can influence
+    my $username;
+    my $groupid;
+    my $userid;
+    my $comment;
+    my $selectedShell;
+
+    my $auto_group_id = '';
+    my $auto_user_id = '';
 
     print "This script sets up a new user.\n";
     print "It will ask you for a username, comment, UID (user id; optional), GID (group id; optional), and preferred shell.\n";
 
     # Get username
-    my $username;
     while (1) {
         $username = get_string_min_length(3, "username");
 
@@ -162,16 +270,81 @@ sub main {
             last;
         }
     }
-
     print("You've selected $username as your username.\n");
 
-    my $selectedShell = pick_string_from_list(\@ALLOWED_SHELLS, 'shell');
+    # Get shell
+    while (1) {
+        $selectedShell = pick_string_from_list(\@ALLOWED_SHELLS, 'shell');
 
-    print("You've selected $selectedShell as your shell.\n");
+        if (shell_exists($selectedShell)) {
+            print("You've selected $selectedShell as your shell.\n");
+            last;
+        }
+        else {
+            print("Shell '$selectedShell' does not exist!\n");
+        }
 
-    my $comment = get_string_min_length(0, "comment");
+    }
 
-    print("You've selected '$comment' as your comment.");
+    # Get comment
+    $comment = get_string_min_length(0, "comment");
+    print("You've selected '$comment' as your comment.\n");
+
+    print("Do you want to select a group ID manually? (y/n)\n");
+    # Group ID prompt
+    if (get_yn_prompt() ne '') {
+
+        # Get a group id
+        while (1) {
+            $groupid = get_numeric_value('group id');
+            if (!group_id_exists($groupid)) {
+                print("Group ID $groupid already exists! Pick a new one.\n");
+            }
+            else {
+                last;
+            }
+        }
+    }
+    else {
+        print("Selecting a group ID automatically.\n");
+        $auto_group_id = "true";
+    }
+
+    print("Do you want to select a user ID manually? (y/n)\n");
+    # User id prompt
+    if (get_yn_prompt() ne '') {
+
+        # Get a user id
+        while (1) {
+            $userid = get_numeric_value('user id');
+            if (user_id_exists($userid)) {
+                print("User ID $userid already exists! Pick a new one.\n");
+            }
+            else {
+                last;
+            }
+        }
+    }
+    else {
+        print("Selecting a user ID automatically.\n");
+        $auto_user_id = "true";
+    }
+
+    my $command = make_useradd_command($username, $groupid, $userid,
+        $comment, shell_path($selectedShell));
+
+    print("Command to be executed:");
+
+    print("    $command \n\n");
+
+    print("Is this okay?");
+
+    if (get_yes_no_full) {
+        print("EXECUTE IT!!! TODO!") # TODO
+    }
+    else {
+        die("Aborting!")
+    }
 
 }
 
