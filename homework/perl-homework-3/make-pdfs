@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-echo 'test' | perl addloginid.p5 > test.out.txt
+printf 'billy\n2\nI am billy\nn\nnY\nNO' | perl addloginid.p5 > billy.cancels.out.txt
 
 # from https://github.com/lucascaton/code2pdf
 code2pdf .
