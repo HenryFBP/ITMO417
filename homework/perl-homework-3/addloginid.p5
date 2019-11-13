@@ -214,7 +214,10 @@ sub get_yn_prompt {
 sub shell_path {
     my ($shell) = @_;
 
-    return chomp(my $res = `which $shell`)
+    my $shell = `which $shell`;
+    chomp $shell;
+
+    return $shell;
 }
 
 # Does this shell exist on the path?
