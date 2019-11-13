@@ -55,7 +55,7 @@ sub ensure_superuser {
     }
 }
 
-sub echo_prompt {
+sub print_prompt {
     printf " > "
 }
 
@@ -67,7 +67,7 @@ sub get_string_min_length {
     while (1) {
 
         print("The '$name' must be $min_length characters or longer:\n");
-        echo_prompt;
+        print_prompt;
 
         my $input = <STDIN>;
         chomp $input;
@@ -136,7 +136,7 @@ sub pick_string_from_list {
         print("You input '$input'.\n");
 
         # If number is numeric,
-        if ($input =~ /^[0-9]$/) {
+        if ($input =~ /^[0-9]+$/) {
             $input = int($input);
 
             # If <0 or >max
@@ -175,8 +175,8 @@ sub user_id_exists {
 
 # For when you need "YES" or "NO" in full.
 sub get_yes_no_full {
-
     while (1) {
+        print_prompt;
         chomp(my $input = <STDIN>);
 
         if ($input =~ /^YES$/) {
@@ -186,7 +186,7 @@ sub get_yes_no_full {
             return "";
         }
         else {
-            print("$input does not match YES or NO. Please enter it in full.");
+            print("$input does not match YES or NO. Please enter it in full.\n");
         }
 
     }
@@ -206,7 +206,7 @@ sub get_yn_no_print {
 }
 
 sub get_yn_prompt {
-    echo_prompt();
+    print_prompt();
     return get_yn_no_print()
 }
 
@@ -214,7 +214,7 @@ sub get_yn_prompt {
 sub shell_path {
     my ($shell) = @_;
 
-    return `which $shell`
+    return chomp(my $res = `which $shell`)
 }
 
 # Does this shell exist on the path?
@@ -247,11 +247,11 @@ sub main {
     ensure_superuser;
 
     # Vars user can influence
-    my $username;
-    my $groupid;
-    my $userid;
-    my $comment;
-    my $selectedShell;
+    my $username = '';
+    my $groupid = '';
+    my $userid = '';
+    my $comment = '';
+    my $selectedShell = '';
 
     my $auto_group_id = '';
     my $auto_user_id = '';
@@ -335,9 +335,9 @@ sub main {
 
     print("Command to be executed:");
 
-    print("    $command \n\n");
+    print("\n\n\t\t$command\n\n");
 
-    print("Is this okay?");
+    print("Is this okay?\n");
 
     if (get_yes_no_full) {
         print("EXECUTE IT!!! TODO!") # TODO
