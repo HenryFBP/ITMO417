@@ -8,7 +8,7 @@ echo "i.e. > ADD_NEW_USERS='YES'"
 if [[ "${ADD_NEW_USERS}" == "YES" ]]; then
     true;
 else
-    echo "\$ADD_NEW_USERS != 'YES'."
+    echo "\$ADD_NEW_USERS != 'YES', it is '${ADD_NEW_USERS}'"
     exit 1;
 fi
 
