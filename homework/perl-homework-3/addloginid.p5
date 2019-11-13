@@ -131,8 +131,8 @@ sub pick_string_from_list {
             print "$i) " . $list_ref->[$i] . "\n";
         }
 
-        my $input = <STDIN>;
-        chomp $input;
+        my $input = '';
+        chomp($input = <STDIN>);
         print("You input '$input'.\n");
 
         # If number is numeric,
@@ -340,7 +340,7 @@ sub main {
     print("Is this okay?\n");
 
     if (get_yes_no_full) {
-        
+
         system("$command");
 
         print("Copying skeleton files...\n");
