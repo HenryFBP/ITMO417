@@ -1,7 +1,16 @@
 #!/usr/bin/env bash
 
-echo "WARNING: This script WILL add new users. uncomment the below line if you are okay with this."
-exit 1
+echo "WARNING: This script WILL add new users."
+echo "Set the ADD_NEW_USERS variable to 'YES' if you are okay with this."
+echo "i.e. > ADD_NEW_USERS='YES'"
+
+
+if [[ "${ADD_NEW_USERS}" == "YES" ]]; then
+    true;
+else
+    echo "\$ADD_NEW_USERS != 'YES'."
+    exit 1;
+fi
 
 printf 'billy\n2\nI am billy\nn\nnY\nNO' | perl addloginid.p5 > billy.cancels.out.txt
 
