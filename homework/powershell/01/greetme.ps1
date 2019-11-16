@@ -10,8 +10,35 @@
 #   h. Display the Windows IP address
 #   i. Tell the user “Good bye <user full name>. See you next time!”
 
+# Start recording to file
+Start-Transcript -path "greetme.out.txt"
+
+Write-Host "Henry Post, hpost@hawk.iit.edu, ITMO 417 at IIT."
+
+# Get name
 $input = Read-Host -Prompt "Enter your name"
 
 Write-Host "Hello $input. How are you? Welcome to Windows PowerShell Scripting."
 
+# Current date
 Get-Date
+
+# Disk info
+Get-WmiObject -class win32_logicaldisk
+
+# Hostname
+Write-Host "Your hostname is '$env:computername'."
+
+# OS release
+Write-Host "OS release info:"
+[environment]::OSVersion.Version
+
+# Process list
+Get-Process
+
+# Windows IP addresses
+Get-NetIPAddress
+
+Write-Host "Good bye $input. See you next time!"
+
+Stop-Transcript
