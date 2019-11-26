@@ -1,5 +1,5 @@
 # Start recording to file
-Start-Transcript -path "./question-1.out.txt"
+Start-Transcript -path "$PSScriptRoot/question-1.out.txt"
 
 Write-Host "Henry Post, hpost@hawk.iit.edu, ITMO 417 at IIT."
 
