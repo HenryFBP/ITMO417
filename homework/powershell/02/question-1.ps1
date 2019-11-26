@@ -68,7 +68,7 @@ Run-Menu `
                     { query user /server:$SERVER },`
                     { Get-WmiObject -class win32_logicaldisk },`
                     { Get-Date },`
-                    { Get-Command -Verb "Get" },`
+                    { Get-Command Get-* },`
                     { Write-Host "Bye!"; Stop-Transcript; Exit 0; })`
 
 Stop-Transcript
