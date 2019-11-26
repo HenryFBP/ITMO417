@@ -7,6 +7,7 @@ function Run-Menu
     )
 
     $input = ""
+    $maxlen = $options.Count
 
     while (!($input -eq 'Q'))
     {
@@ -14,13 +15,34 @@ function Run-Menu
 
         for ($i = 0; $i -lt $options.Count; $i++) {
             Write-Host "$i)" $options[$i]
-            & $callbacks[$i] # This executes the lambda fn
         }
 
-        Write-Host "Q: Press 'Q' to quit."
+        Write-Host "Press 'Q' to quit."
 
-        Read-Host -Prompt "Enter a choice from 0 to ${options.Count}" -OutVariable input
+        $input = Read-Host "Enter a choice from 0 to $maxlen."
 
+        try
+        {
+            $input = [int]$input
+            if ($input -lt 0)
+            {
+                Write-Host "Cannot choose <0!"
+            }
+            elseif ($input -gt $maxlen)
+            {
+                Write-Host "Cannot choose >$maxlen!"
+            }
+            else
+            {
+                Write-Host "You chose $input!"
+                & $callbacks[$input] # This executes the lambda fn
+            }
+
+        }
+        catch
+        {
+            Write-Host "Choice must be an integer."
+        }
     }
 
 
