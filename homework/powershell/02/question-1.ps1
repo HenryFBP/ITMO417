@@ -1,3 +1,8 @@
+# Start recording to file
+Start-Transcript -path "./question-1.out.txt"
+
+Write-Host "Henry Post, hpost@hawk.iit.edu, ITMO 417 at IIT."
+
 function Run-Menu
 {
     param (
@@ -48,8 +53,6 @@ function Run-Menu
     Write-Host "Goodbye!"
 }
 
-# Start recording to file
-Start-Transcript -path "question-1.out.txt"
 
 Run-Menu `
     -Title "Question 1, hpost@hawk.iit.edu, ITMO417"`
