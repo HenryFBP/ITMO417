@@ -19,7 +19,7 @@ function Run-Menu
 
         Write-Host "Press 'Q' to quit."
 
-        $input = Read-Host "Enter a choice from 0 to $maxlen."
+        $input = Read-Host -Prompt "Enter a choice from 0 to $maxlen."
 
         try
         {
@@ -45,10 +45,27 @@ function Run-Menu
         }
     }
 
-
+    Write-Host "Goodbye!"
 }
 
+# Start recording to file
+Start-Transcript -path "question-1.out.txt"
 
-$options = @()
+Run-Menu `
+    -Title "Question 1, hpost@hawk.iit.edu, ITMO417"`
+    -options @( "Display hostname", `
+                'Display IP address',`
+                'Display all logged on users',`
+                "Display disk info",`
+                "Display date info",`
+                "Display all Get-* commands",`
+                'Exit program')`
+    -callbacks @(   { Write-Host "Your hostname is '$env:computername'."},`
+                    { Get-NetIPAddress },`
+                    { query user /server:$SERVER },`
+                    { Get-WmiObject -class win32_logicaldisk },`
+                    { Get-Date },`
+                    { Get-Command -Verb "Get" },`
+                    { Write-Host "Bye!"; Stop-Transcript; Exit 0; })`
 
-Run-Menu -Title "potato"
+Stop-Transcript
