@@ -45,7 +45,7 @@ Vagrant.configure("2") do |config|
   # argument is a set of non-required options.
   # config.vm.synced_folder "../data", "/vagrant_data"
 
-  config.vm.synced_folder '.', '/ITMO417-Pwsh-Scripts'
+  config.vm.synced_folder '../../', '/ITMO417'
 
   config.vm.provider 'virtualbox' do |v|
     v.name = 'ITMO417-Windows-10-Pwsh-Scripts'
