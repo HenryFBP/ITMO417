@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+echo "If there's no output file, run the powershell scripts yourself. IDK how to automatically run them yet."
+
+# from https://github.com/lucascaton/code2pdf
+code2pdf .
+mv _.pdf hpost-powershell-homework-2-code.out.pdf

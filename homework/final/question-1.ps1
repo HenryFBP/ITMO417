@@ -92,3 +92,5 @@ foreach ($arr in $all_arrays)
 
 
 }
+
+Stop-Transcript
