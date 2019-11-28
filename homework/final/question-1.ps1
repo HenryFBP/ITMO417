@@ -32,6 +32,12 @@ $a6 = (1)
 
 $all_arrays = @($a1, $a2, $a3, $a4, $a5, $a6)
 
+# This function will accept a list of integers,
+# and return a hashtable where the keys are numbers,
+# and the values are how many times (odd-only!) those numbers occurred.
+# Example:
+# INPUT: (1,1,1,2,3,3,4,4)
+# OUTPUT: {1: 3, 2: 1}
 function Find-Odd-Count
 {
     param (

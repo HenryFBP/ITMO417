@@ -1,6 +1,7 @@
 #!/usr/bin/perl
 use strict;
 use warnings FATAL => 'all';
+use Data::Dumper;
 
 print "Henry Post, hpost\@hawk.iit.edu, ITMO 417 at IIT.\n";
 
@@ -37,6 +38,26 @@ my @a6 = (1);
 
 my @arrays = (\@a1, \@a2, \@a3, \@a4, \@a5, \@a6);
 
+# This function will accept a list of integers,
+# and return a hashtable where the keys are numbers,
+# and the values are how many times (odd-only!) those numbers occurred.
+# Example:
+# INPUT: (1,1,1,2,3,3,4,4)
+# OUTPUT: {1: 3, 2: 1}
+sub find_odd_count {
+    my @arr = @_;
+
+    # number: occurrences pairs
+    my %numbers_occurrences;
+
+    foreach my $number (@arr){
+        print("oo a number: $number \n")
+    }
+}
+
 foreach my $arr (@arrays) {
-    print($arr . "\n");
+
+    print Dumper(@$arr);
+
+    print(Dumper(find_odd_count(@$arr)))
 }
