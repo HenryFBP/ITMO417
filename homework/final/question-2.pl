@@ -50,14 +50,56 @@ sub find_odd_count {
     # number: occurrences pairs
     my %numbers_occurrences;
 
-    foreach my $number (@arr){
-        print("oo a number: $number \n")
+    # count up how many times each number occurs and store it in $numbers_occurrences
+    foreach my $number (@arr) {
+        # print("oo a number: $number \n");
+
+        # if we've seen this number before,
+        if (defined($numbers_occurrences{$number})) {
+            # add 1
+            $numbers_occurrences{$number} = $numbers_occurrences{$number} + 1;
+        }
+        else { # We haven't seen it before, except now, which is once.
+            $numbers_occurrences{$number} = 1;
+        }
     }
+
+    # print("total time all numbers occur:\n");
+    # print(Dumper(%numbers_occurrences));
+
+    # Find all the odd number occurrences
+    foreach my $number (keys %numbers_occurrences) {
+        my $occurrences = $numbers_occurrences{$number};
+
+        if (!($occurrences & 0x1)) {              # If it is even, i.e. its last bit is not set,
+            delete($numbers_occurrences{$number}) # Delete it.
+        }
+    }
+
+    # print("total time all numbers occur an odd amount of times:\n");
+    # print(Dumper(%numbers_occurrences));
+
+    return %numbers_occurrences;
+
 }
 
 foreach my $arr (@arrays) {
 
-    print Dumper(@$arr);
+    # print(Dumper(@$arr));
 
-    print(Dumper(find_odd_count(@$arr)))
+    my %odd_numbers_occurrences = (find_odd_count(@$arr));
+
+    print("For these numbers: ");
+
+    foreach my $n (@$arr) {
+        print("$n ");
+    }
+    print("\n");
+
+    foreach my $number (keys %odd_numbers_occurrences) {
+        my $occurrences = $odd_numbers_occurrences{$number};
+
+
+        print("$number occurs $occurrences times.\n")
+    }
 }
