@@ -2,6 +2,9 @@
 
 echo "If there's no output file, run the powershell scripts yourself. IDK how to automatically run them yet."
 
+perl question-2.pl > question-2.out.txt
+bash question-3.sh > question-3.out.sh
+
 # from https://github.com/lucascaton/code2pdf
 code2pdf .
 mv _.pdf hpost-powershell-homework-2-code.out.pdf
