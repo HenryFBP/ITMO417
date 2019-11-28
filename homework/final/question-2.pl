@@ -99,7 +99,6 @@ foreach my $arr (@arrays) {
     foreach my $number (keys %odd_numbers_occurrences) {
         my $occurrences = $odd_numbers_occurrences{$number};
 
-
         print("$number occurs $occurrences times.\n")
     }
 }
